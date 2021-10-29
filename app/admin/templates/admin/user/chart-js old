@@ -1,0 +1,91 @@
+<script>
+  /*
+    var chartColors = {
+    red: 'rgb(255, 99, 132)',
+    orange: 'rgb(255, 159, 64)',
+    yellow: 'rgb(255, 205, 86)',
+    green: 'rgb(75, 192, 192)',
+    info: '#41B1F9',
+    blue: '#3245D1',
+    purple: 'rgb(153, 102, 255)',
+    grey: '#EBEFF6'
+  };
+
+  let dats = JSON.parse({{ totalPoli | tojson}})
+  let harian = JSON.parse({{ totalHarian | tojson}})
+  console.log(dats, harian)
+
+
+  var ctxBar = document.getElementById("bar").getContext("2d");
+  var myBar = new Chart(ctxBar, {
+    type: 'bar',
+    data: {
+      labels: ["Pasien", "Poli Umum", "Poli Gigi", "Poli Spesialis", "Poli KIA"],
+      datasets: [{
+        label: 'Pasien',
+        backgroundColor: [chartColors.blue, chartColors.green, chartColors.info, chartColors.red, chartColors
+          .purple
+        ],
+        data: ["{{ dataPasien }}"].concat(dats)
+      }]
+    },    
+    plugins: [ChartDataLabels],
+    options: {
+      responsive: true,
+      barRoundness: 1,
+      legend: {
+        display: false
+      },
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true,
+            suggestedMax: "{{dataPasien}}",
+            padding: 10,
+          },
+          gridLines: {
+            drawBorder: false,
+          }
+        }],
+        xAxes: [{
+          gridLines: {
+            display: false,
+            drawBorder: false
+          }
+        }]
+      }
+    }
+  });
+
+ 
+var ctx = document.getElementById('donat').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+        labels: ['Poli Umum', 'Poli Gigi', 'Poli Spesialis', 'Poli KIA'],
+        datasets: [{
+            label: harian,
+            data: harian,
+            backgroundColor: [chartColors.green, chartColors.info, chartColors.red, chartColors
+            .purple
+          ],
+            borderColor: [chartColors.green, chartColors.info, chartColors.red, chartColors
+            .purple
+          ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        },
+        tooltips: {
+          enabled : false
+        }
+    }
+});
+
+*/
+</script>

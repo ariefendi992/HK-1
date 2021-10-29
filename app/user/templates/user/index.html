@@ -1,0 +1,74 @@
+{% extends "layouts/base-user.html" %}
+
+
+{% block title %}
+Index
+{% endblock %}
+
+{% block content %}
+
+<!-- tampilkan pesan selamat datang -->
+<div class="alert alert-light d-flex align-items-center mb-5 rounded-2" role="alert">
+
+  <div>
+    Selamat Datang di <strong>Aplikasi Antrian HK Medical Center</strong>.
+  </div>
+</div>
+
+
+<div class="row gx-5">
+  <!-- link halaman nomor antrian -->
+  <div class="col-lg-6 mb-4">
+    <div class="card border-0 shadow-sm">
+      <div class="card-body p-5">
+        <div class="feature-icon-1 bg-success bg-gradient mb-4">
+          <i class="bi-people"></i>
+        </div>
+        <h3>Registrasi</h3>
+        <p class="mb-4">Halaman Registrasi digunakan untuk mendaftarkan Pasien.</p>
+        <a href="{{ url_for('user.registerPasien')}}" class="btn btn-success rounded-pill px-4 py-2">
+          Registrasi <i class="bi-chevron-right ms-2"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+  <!-- link halaman panggilan antrian -->
+  {% if not current_user.is_authenticated %}
+  <div class="col-lg-6 mb-4">
+    <div class="card border-0 shadow-sm">
+      <div class="card-body p-5">
+        <div class="feature-icon-1 bg-success bg-gradient mb-4">
+          <i class="bi-door-open"></i>
+        </div>
+        <h3>Login</h3>
+        <p class="mb-4">Halaman Login untuk mengakses antrian Pasien.</p>
+        <a href="{{ url_for('user.loginUser')}}" class="btn btn-success rounded-pill px-4 py-2">
+          Masuk <i class="bi-chevron-right ms-2"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+  {% else %}
+  <div class="col-lg-6 mb-4">
+    <div class="card border-0 shadow-sm">
+      <div class="card-body p-5">
+        <div class="feature-icon-1 bg-success bg-gradient mb-4">
+          <i class="bi-door-open"></i>
+        </div>
+        <h3>Menu</h3>
+        <p class="mb-4">Halaman Menu untuk mengakses antrian Pasien.</p>
+        <a href="{{ url_for('user.antrianUser')}}" class="btn btn-success rounded-pill px-4 py-2">
+          Masuk <i class="bi-chevron-right ms-2"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  {% endif %}
+
+</div>
+{% endblock %}
+
+
+
+<!-- Footer -->

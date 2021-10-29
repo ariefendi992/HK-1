@@ -1,0 +1,223 @@
+{% extends "layouts/base.html" %}
+
+{% set filename = 'data-antrian' %}
+
+{% block title %} Data antrian {% endblock %}
+
+{% block stylesfirst %}
+{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='vendors/simple-datatables/style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='vendors/fontawesome/all.min.css') }}">
+<style>
+  .fontawesome-icons {
+    text-align: center;
+  }
+
+  article dl {
+    background-color: rgba(0, 0, 0, .02);
+    padding: 20px;
+  }
+
+  .fontawesome-icons .the-icon svg {
+    font-size: 24px;
+  }
+</style>
+{% endblock %}
+
+{% block title_page %} Data antrian {% endblock %}
+
+{% block item_page %} data-antrian {% endblock %}
+
+{% block content %}
+
+<section class="section">
+  <div class="card">
+    <div class="card-header">
+      <a href="{{ url_for('antrianp.TambahAntrianPoli') }}" class="btn btn-primary">
+        <i class="fa fa-plus me-1"></i> Tambah data
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        {#} <div class="table-responsive">
+          <table class="table table-striped" id="table1">
+            <thead class="">
+              <tr>
+                <th>No.</th>
+                <th>Nama Pasien</th>
+                <th>Poli</th>
+                <th>No. Antrian</th>
+                <th>Tgl Daftar</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+
+           <tbody>
+              {% for page, name, poli in dataAntrian %}
+              <tr>
+                <td>{{ loop.index }}</td>
+                <td> {{ name.nama_p }}</td>
+                <td>{{ poli.nama_poli }}</td>
+                <td>{{ page.no_antrianp }}</td>
+                <td>{{ page.tgl_daftar|dateformat('%d-%B-%Y')}}</td>
+                <td>
+                  <a href="{{ url_for('antrianp.Cetak', id=page.id) }}" target="_blank" class="btn btn-outline-warning"
+                    data-bs-toggle="tooltip" data-bs-placement="top" title="Cetak Antrian {{ name.nama_p }} !">
+                    <i class="fa fa-print"></i>
+                  </a>
+                  <a class="btn btn-outline-danger" href="" data-bs-toggle="modal" data-bs-placement="top"
+                    title="Hapus Data {{ page.nama_p }} !" data-bs-target="#hapusModal{{page.id}}">
+                    <i class="fa fa-trash-alt"></i>
+                  </a>
+                  <button id="tombol" class="btn btn-info btn-sm rounded-circle">
+                    <i class="bi-mic-fill"></i>
+                  </button>
+                </td>
+              </tr>
+              {% endfor %}
+              {% for page, name, poli in dataAntrian %}
+              {% include "modal/modal-deleteAntrian.html" %}
+              {% endfor %}
+            </tbody>
+          
+          </table>
+
+          {{ query}}
+          <br>
+          {{ rows}}
+        </div>
+{#}
+
+        <div class="table-responsive">
+          <table id="tabel-antrian" class="table table-bordered table-striped table-hover" width="100%">
+            <thead>
+              <tr>
+                <th>Nomor Antrian</th>
+                <th>Status</th>
+                <th>Panggil</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block audio %}
+<audio id="tingtung" src="{{ url_for('static', filename='audio/tingtung.mp3') }}"></audio>
+{% endblock  %}
+
+{% block js %}
+<!-- jQuery Core -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<script src="{{ url_for('static', filename='vendors/fontawesome/all.min.js') }}"></script>
+{<script src="{{ url_for('static', filename='vendors/simple-datatables/simple-datatables.js') }}"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.10.25/datatables.min.js"></script>
+
+<!-- Get API Key -> https://responsivevoice.org/ -->
+<script src="https://code.responsivevoice.org/responsivevoice.js?key=jQZ2zcdq"></script>
+
+<script>
+  $(document).ready(function () {
+    var table = $('#tabel-antrian').DataTable({
+      "lengthChange": false,
+      "searching": false,
+      "ajax": "{{ url_for('antrianp.jsonAntrian')}}",
+      "columns": [{
+          "data": "no_antrian",
+          "width": '250px',
+          "className": "text-center"
+        },
+        {
+          "data": "status",
+          "visible": false
+        },
+        {
+          "data": null,
+          "orderable": false,
+          "searchable": false,
+          "width": '100px',
+          "className": 'text-center',
+          "render": function (data, type, row) {
+            // jika tidak ada data "status"
+            if (data["status"] === "") {
+              // sembunyikan button panggil
+              var btn = "-";
+            }
+            // jika data "status = 0"
+            else if (data["status"] === "0") {
+              // tampilkan button panggil
+              var btn =
+                "<button class=\"btn btn-success btn-sm rounded-circle\"><i class=\"bi-mic-fill\"></i></button>";
+            }
+            // jika data "status = 1"
+            else if (data["status"] === "1") {
+              // tampilkan button ulangi panggilan
+              var btn =
+                "<button class=\"btn btn-secondary btn-sm rounded-circle\"><i class=\"bi-mic-fill\"></i></button>";
+            };
+            return btn;
+          }
+        }
+      ],
+      "order": [
+        [0, "desc"]
+      ],
+      "iDisplayLength": 10,
+    });
+
+    $('#tabel-antrian tbody').on('click', 'button', function () {
+      // ambil data dari datatables 
+      var data = table.row($(this).parents('tr')).data();
+      // buat variabel untuk menampilkan data "id"
+      var id = data["id"];
+      // buat variabel untuk menampilkan audio bell antrian
+      var bell = document.getElementById('tingtung');
+
+      // mainkan suara bell antrian
+      bell.pause();
+      bell.currentTime = 0;
+      bell.play();
+
+      // set delay antara suara bell dengan suara nomor antrian
+      durasi_bell = bell.duration * 770;
+
+      // mainkan suara nomor antrian
+
+      setTimeout(function () {
+        responsiveVoice.speak("Nomor Antrian, " + data["no_antrian"] + ", menuju, loket, 1",
+          "Indonesian Female", {
+            rate: 0.9,
+            pitch: 1,
+            volume: 1
+          });
+      }, durasi_bell);
+
+      // proses update data
+      $.ajax({
+        type: "POST",               // mengirim data dengan method POST
+        url: "{{ url_for('antrianp.jsonUpdate', id=1)}}",          // url file proses update data
+        data: { 'id': id }            // tentukan data yang dikirim
+      });
+    });
+
+    setInterval(function() {
+      table.ajax.reload(null, false);
+    }, 1000);
+  })
+</script>
+{#}
+<script>
+  // Simple Datatable
+  let table1 = document.querySelector('#table1');
+  let dataTable = new simpleDatatables.DataTable(table1);
+</script>
+{#}
+{% endblock %}

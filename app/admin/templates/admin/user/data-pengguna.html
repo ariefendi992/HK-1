@@ -1,0 +1,102 @@
+{% extends "layouts/base.html" %}
+
+{% set filename = 'data-pengguna' %}
+
+{% block title %} Lihat Data {% endblock %}
+
+{% block stylesfirst %}
+{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="static/vendors/simple-datatables/style.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='vendors/fontawesome/all.min.css') }}">
+<style>
+  .fontawesome-icons {
+    text-align: center;
+  }
+
+  article dl {
+    background-color: rgba(0, 0, 0, .02);
+    padding: 20px;
+  }
+
+  .fontawesome-icons .the-icon svg {
+    font-size: 24px;
+  }
+</style>
+{% endblock %}
+
+{% block title_page %} Data Pengguna {% endblock %}
+
+{% block item_page %} data-pengguna {% endblock %}
+
+{% block content %}
+
+<section class="section">
+  <div class="card">
+    <div class="card-header">
+      <a href="/tambah-data" class="btn btn-primary">
+        <i class="fa fa-plus me-1"></i> Tambah data
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="row">
+
+        <table class="table table-striped " id="table1">
+          <thead >
+            <tr>
+              <th>No.</th>
+              <th>Nama</th>
+              <th>Username</th>
+              <th>Tipe Akun</th>
+              <!-- <th data-type="date" data-format="YYYY/MM/DD">Start Date</th> -->
+              <th>Aksi</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {% for page, tipe in listData %}
+            <tr>
+              <td>{{ loop.index }}</td>
+              <td>{{ page.nama }}</td>
+              <td>{{ page.username }}</td>
+              <td>{{ tipe.tipe_akun }}</td>
+              <td>
+                <a class="btn btn-outline-info" href="" data-bs-toggle="modal"
+                  data-bs-target="#detailData{{ page.slug }}" data-bs-placement="top" title="Lihat Detail">
+                  <i class="fa fa-eye"></i>
+                </a>
+                <a href="{{ url_for('admin.UbahData', slug=page.slug) }}" class="btn btn-outline-warning"
+                  data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Data {{ page.nama }} !">
+                  <i class="fa fa-pencil-alt"></i>
+                </a>
+                <a class="btn btn-outline-danger" href="" data-bs-toggle="modal" data-bs-placement="top"
+                  title="Hapus Data {{ page.nama }} !" data-bs-target="#hapusModal{{page.slug}}">
+                  <i class="fa fa-trash-alt"></i>
+                </a>
+              </td>
+            </tr>
+            {% include "modal/modal-delete.html" %}
+            {% endfor %}
+          </tbody>
+        </table>
+        {% for page, tipe in listData %}
+        {% include "modal/detail-data.html" %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block js %}
+<script src="{{ url_for('static', filename='vendors/fontawesome/all.min.js') }}"></script>
+<script src="static/vendors/simple-datatables/simple-datatables.js"></script>
+<script>
+  // Simple Datatable
+  let table1 = document.querySelector('#table1');
+  let dataTable = new simpleDatatables.DataTable(table1);
+</script>
+
+{% endblock %}

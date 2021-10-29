@@ -1,0 +1,69 @@
+{% macro render_field(field) %}
+
+<div class="form-group row align-items-center mb-4">
+  <div class="col-lg-2 col-4 text-end">
+    <label class="col-form-label" for="{{ field.name }}" style="font-weight: 900;">{{ field.label.text }}</label>
+  </div>
+  <div class="col-lg-4 col-8 ">
+    {% if field.errors %}
+    {{ field(class="form-control is-invalid", **kwargs)|safe }}
+    {% for error in field.errors %}
+    <div class="invalid-feedback">
+      <span>{{ error }}</span>
+    </div>
+    {% endfor %}
+    {% elif field.data %}
+    {{ field(class="form-control is-valid", **kwargs)|safe }}
+    <div class="valid-feedback">
+      <span></span>
+    </div>
+    {% else %}
+    {{ field(class="form-control", **kwargs)|safe }}
+    {% endif %}
+  </div>
+</div>
+
+{% endmacro  %}
+
+{% macro render_radio_fields(field) %}
+<div class="form-group row align-items-center mb-4">
+  <div class="col-lg-2 col-4 text-end">
+    <label class="col-form-label" for="{{ field.name }}" style="font-weight: 900;">{{ field.label.text }}</label>
+  </div>
+  <div class="col-lg-4 col-8 ">
+    {% for subfield in field %}
+    <div class="form-check form-check-inline">
+      <label class="form-check-label">
+        {{ subfield(class="form-check-input", **kwargs)|safe }}
+        {{ subfield.label.text }}
+      </label>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endmacro  %}
+
+{% macro render_select_field(field) %}
+<div class="form-group row align-items-center mb-4">
+  <div class="col-lg-2 col-4 text-end">
+    <label class="col-form-label" for="{{ field.name }}" style="font-weight: 900;">{{ field.label.text }}</label>
+  </div>
+  <div class="col-lg-4 col-8 ">
+    {% if field.errors %}
+    {{ field(class="form-select is-invalid", **kwargs)|safe }}
+    {% for error in field.errors %}
+    <div class="invalid-feedback">
+      <span>{{ error }}</span>
+    </div>
+    {% endfor %}
+    {% elif field.data %}
+    {{ field(class="form-select is-valid", **kwargs)|safe }}
+    <div class="valid-feedback">
+      <span></span>
+    </div>
+    {% else %}
+    {{ field(class="form-select", **kwargs)|safe }}
+    {% endif %}
+  </div>
+</div>
+{% endmacro  %}

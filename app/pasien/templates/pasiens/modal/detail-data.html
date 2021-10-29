@@ -1,0 +1,44 @@
+<div class="modal fade text-left" id="detailData{{ page.slug }}" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel17" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel17">..::Detail Data Pengguna ::..</h4>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <i data-feather="x"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead class="table-active">
+              <tr>
+                <th>Nama</th>
+                <th>Email</th>
+                <th>Telp/Wa</th>
+                <th>Tgl Buat</th>
+                <th>Tgl Update</th>
+                <th>Tipe Akun</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{ page.nama }}</td>
+                <td>{{ page.email }}</td>
+                <td>{{ page.telp }}</td>
+                <td>{{ page.created_at }}</td>
+                <td>{{ page.updated_at }}</td>
+                <td>{{ tipe.tipe_akun }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

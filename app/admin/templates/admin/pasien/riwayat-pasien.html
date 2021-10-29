@@ -1,0 +1,106 @@
+{% extends "layouts/base.html" %}
+
+{% set filename = 'riwayat-pasien' %}
+
+{% block title %} Riwayat Pasien {% endblock %}
+
+{% block stylesfirst %}
+{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='vendors/simple-datatables/style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='vendors/fontawesome/all.min.css') }}">
+<style>
+  .fontawesome-icons {
+    text-align: center;
+  }
+
+  article dl {
+    background-color: rgba(0, 0, 0, .02);
+    padding: 20px;
+  }
+
+  .fontawesome-icons .the-icon svg {
+    font-size: 24px;
+  }
+</style>
+{% endblock %}
+
+{% block title_page %} Data Riwayat Pasien {% endblock %}
+
+{% block item_page %} data-riwayat {% endblock %}
+
+{% block content %}
+
+<section class="section">
+  <div class="card">
+    <div class="card-header">
+      <a href="/pasien/tambah-data" class="btn btn-primary">
+        <i class="fa fa-plus me-1"></i> Tambah data
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="table-responsive">
+          <table class="table table-striped" id="table1">
+            <thead class="">
+              <tr>
+                <th>No.</th>
+                <th>No. Identitas</th>
+                <th>Nama</th>
+                <th>Jenis Kelamin</th>
+                <th>Poli</th>
+                <!-- <th data-type="date" data-format="DD/MM/YYYY">Tgl Lahir</th>
+                <th>Alamat</th>
+                <th>Telp</th> -->
+                <th>Aksi</th>
+              </tr>
+            </thead>
+
+            <tbody>
+             {% for sql in query %}               
+              <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{sql.pasien.no_identitas_p}}</td>
+                <td>{{sql.pasien.nama_p}}</td>
+                <td>{{sql.pasien.gender.jk}}</td>
+                <td>{{sql.poli.nama_poli}}</td>
+               
+                <td>
+                  <a class="btn btn-outline-info" href="" data-bs-toggle="modal"
+                    data-bs-target="#detailPasien{{ sql.no_identitas_p }}" data-bs-placement="top"
+                    title="Lihat Detail">
+                    <i class="fa fa-eye"></i>
+                  </a>
+                  <a class="btn btn-outline-danger" href="" data-bs-toggle="modal" data-bs-placement="top"
+                    title="Hapus Data {{ sql.nama_p }} !" data-bs-target="#hapusModal{{sql.slug}}">
+                    <i class="fa fa-trash-alt"></i>
+                  </a>
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+       
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block js %}
+<script src="{{ url_for('static', filename='vendors/fontawesome/all.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendors/simple-datatables/simple-datatables.js') }}"></script>
+<script>
+  // Simple Datatable
+  let table1 = document.querySelector('#table1');
+  let dataTable = new simpleDatatables.DataTable(table1,{
+    
+  });
+</script>
+
+</script>
+
+{% endblock %}

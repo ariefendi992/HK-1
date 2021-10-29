@@ -1,0 +1,1 @@
+from ..auth.controller.c_auth import auth

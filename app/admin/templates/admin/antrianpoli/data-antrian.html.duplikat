@@ -1,0 +1,100 @@
+{% extends "layouts/base.html" %}
+
+{% set filename = 'data-antrian' %}
+
+{% block title %} Data antrian {% endblock %}
+
+{% block stylesfirst %}
+{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='vendors/simple-datatables/style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='vendors/fontawesome/all.min.css') }}">
+<style>
+  .fontawesome-icons {
+    text-align: center;
+  }
+
+  article dl {
+    background-color: rgba(0, 0, 0, .02);
+    padding: 20px;
+  }
+
+  .fontawesome-icons .the-icon svg {
+    font-size: 24px;
+  }
+</style>
+{% endblock %}
+
+{% block title_page %} Data antrian {% endblock %}
+
+{% block item_page %} data-antrian {% endblock %}
+
+{% block content %}
+
+<section class="section">
+  <div class="card">
+    <div class="card-header">
+      <a href="{{ url_for('antrianp.TambahAntrianPoli') }}" class="btn btn-primary">
+        <i class="fa fa-plus me-1"></i> Tambah data
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="table-responsive">
+          <table class="table table-striped" id="table1">
+            <thead class="">
+              <tr>
+                <th>No.</th>
+                <th>Nama Pasien</th>
+                <th>Poli</th>
+                <th>No. Antrian</th>
+                <th>Tgl Daftar</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {% for page, name, poli in dataAntrian %}
+              <tr>
+                <td>{{ loop.index }}</td>
+                <td> {{ name.nama_p }}</td>
+                <td>{{ poli.nama_poli }}</td>
+                <td>{{ page.no_antrianp }}</td>
+                <td>{{ page.tgl_daftar|dateformat('%d-%B-%Y')}}</td>
+                <td>
+                  <a href="{{ url_for('antrianp.Cetak', id=page.id) }}" target="_blank" class="btn btn-outline-warning"
+                  data-bs-toggle="tooltip" data-bs-placement="top" title="Cetak Antrian {{ name.nama_p }} !">
+                  <i class="fa fa-print"></i>
+                </a>
+                <a class="btn btn-outline-danger" href="" data-bs-toggle="modal" data-bs-placement="top"
+                title="Hapus Data {{ page.nama_p }} !" data-bs-target="#hapusModal{{page.id}}">
+                <i class="fa fa-trash-alt"></i>
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+          {% for page, name, poli in dataAntrian %}
+          {% include "modal/modal-deleteAntrian.html" %}
+          {% endfor %}
+        </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block js %}
+<script src="{{ url_for('static', filename='vendors/fontawesome/all.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendors/simple-datatables/simple-datatables.js') }}"></script>
+<script>
+  // Simple Datatable
+  let table1 = document.querySelector('#table1');
+  let dataTable = new simpleDatatables.DataTable(table1);
+</script>
+
+{% endblock %}

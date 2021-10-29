@@ -1,0 +1,94 @@
+{% extends "layouts/base.html" %}
+
+{% set filename = 'data-poli' %}
+
+{% block title %} Kategori Poli {% endblock %}
+
+{% block stylesfirst %}
+{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='vendors/simple-datatables/style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='vendors/fontawesome/all.min.css') }}">
+<style>
+  .fontawesome-icons {
+    text-align: center;
+  }
+
+  article dl {
+    background-color: rgba(0, 0, 0, .02);
+    padding: 20px;
+  }
+
+  .fontawesome-icons .the-icon svg {
+    font-size: 24px;
+  }
+</style>
+{% endblock %}
+
+{% block title_page %} Data Poli {% endblock %}
+
+{% block item_page %} data-poli {% endblock %}
+
+{% block content %}
+
+<section class="section">
+  <div class="card">
+    <div class="card-header">
+      <a href="#" class="btn btn-primary">
+        <i class="fa fa-plus me-1"></i> Tambah data
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="table-responsive">
+          <table class="table table-striped" id="table1">
+            <thead class="">
+              <tr>
+                <th>No.</th>
+                <th>ID Poli</th>
+                <th>Nama Poli</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {% for page in dataPoli %}
+              <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ page.kode_poli }}</td>
+                <td>{{ page.nama_poli }}</td>
+                <td>
+                  <a href="{{ url_for('poli.UbahPoli', slug=page.slug) }}" class="btn btn-outline-warning"
+                    data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Data {{ page.nama_poli }} !">
+                    <i class="fa fa-pencil-alt"></i>
+                  </a>
+                  <a class="btn btn-outline-danger" href="" data-bs-toggle="modal" data-bs-placement="top"
+                    title="Hapus Data {{ page.nama_p }} !" data-bs-target="#hapusModal{{page.slug}}">
+                    <i class="fa fa-trash-alt"></i>
+                  </a>
+                </td>
+              </tr>
+              {% include "modal/modal-delete-pasien.html" %}
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block js %}
+<script src="{{ url_for('static', filename='vendors/fontawesome/all.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendors/simple-datatables/simple-datatables.js') }}"></script>
+<script>
+  // Simple Datatable
+  let table1 = document.querySelector('#table1');
+  let dataTable = new simpleDatatables.DataTable(table1);
+</script>
+
+{% endblock %}

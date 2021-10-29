@@ -1,0 +1,179 @@
+{% from "helper/_utils.html" import btn_simpan, btn_secondary %} {% from
+"helper/_pasien.html" import render_field, render_radio_fields,
+render_select_field %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Halaman | {% block title %} {% endblock %}</title>
+  {% block stylesfirst %}{% endblock %}
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/bootstrap.css') }}"
+  />
+  {% block styles %}{% endblock %}
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='vendors/perfect-scrollbar/perfect-scrollbar.css') }}"
+  />
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='vendors/bootstrap-icons/bootstrap-icons.css') }}"
+  />
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/app.css') }}"
+  />
+  <link
+    rel="shortcut icon"
+    href="{{ url_for('static', filename='images/logo/logoHK.png') }}"
+    type="image/x-icon"
+  />
+
+  <style>
+    body {
+        background-color: #F4F7FC;
+    }
+
+    table thead {
+        background-color: #cfdbff;
+    }
+
+    .sidebar-wrapper {
+      background-color: #2D3744;
+    }
+
+    .sidebar-wrapper .menu .sidebar-title {
+      color: #C1CFD6;
+    }
+
+    .sidebar-wrapper .menu .sidebar-link {
+      color: #7F828C;
+    }
+
+    .sidebar-wrapper .menu .sidebar-link i,.sidebar-wrapper .menu .sidebar-link svg {
+      color: #7F828C;
+    }
+    .sidebar-wrapper .menu .sidebar-link:hover {
+      background-color: #1F2C3C;
+    }
+
+    .sidebar-wrapper .menu .submenu .submenu-item.active>a {
+      color: white;
+    }
+
+    .sidebar-wrapper .menu .submenu .submenu-item a {
+      color: #7F828C;
+    }
+    .sidebar-wrapper .menu .submenu .submenu-item a:hover {
+      background-color: #1F2C3C;
+      border: none;
+      border-radius: 10px;
+    }
+
+    .sidebar-wrapper .menu .sidebar-item.active .sidebar-link {
+      background-color: #1F2C3C;
+    }
+    
+    sidebar-wrapper .menu .sidebar-link:hover {
+      background-color: #1F2C3C;
+    }
+
+    .dataTable-table td {
+      padding: 4px 8px;
+    }
+    .btn {
+      padding: 2px 8px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <div id="sidebar" class="active">
+      <div class="sidebar-wrapper active">
+        {% if current_user.role_id == 1 %} {% include "layouts/sidebar.html"
+        %} {% elif current_user.role_id == 3 %} {% include
+        "layouts/sidebar-pasien.html" %} {% endif %}
+      </div>
+    </div>
+    <div id="main">
+      <header class="mb-2">
+        <a href="#" class="burger-btn d-block d-xl-none">
+          <i class="bi bi-justify fs-3"></i>
+        </a>
+      </header>
+      <page-content>
+        <div class="page-heading">
+          <div class="page-title">
+            <div class="row">
+              <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3>{% block title_page %} {% endblock %}</h3>
+                <!-- <p class="text-subtitle text-muted">A Component</p> -->
+              </div>
+              <div class="col-12 col-md-6 order-md-2 order-first">
+                {% if filename != 'index' %}                  
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                      <a href="{{ url_for('admin.Index') }}">Dashboard</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                      {% block item_page %} {% endblock %}
+                    </li>
+                  </ol>
+                </nav>
+               {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </page-content>
+      {% with messages = get_flashed_messages(with_categories = true ) %} {%
+      if messages %} {% for category, message in messages %}
+      <section class="row">
+        <div class="row">
+          <div class="col-md-8">
+            <div
+              class="alert alert-{{ category }} alert-dismissible fade show"
+              role="alert"
+            >
+              {{ message }}
+              <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
+            </div>
+          </div>
+        </div>
+      </section>
+      {% endfor %} {% endif %} {% endwith %} {% block content %} {% endblock
+      %}
+      <footer>
+        <div class="footer clearfix mb-0 text-muted">
+          <div class="float-start">
+            <!-- <p>2021 &copy; Mazer</p> -->
+          </div>
+          <!-- <div class="float-end">
+                      <p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by <a
+                              href="http://ahmadsaugi.com">A. Saugi</a></p>
+                  </div> -->
+        </div>
+      </footer>
+      {% block audio %} {% endblock %}
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='vendors/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
+
+  <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+  {#}
+  <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+  {##} {% block js %}{% endblock %}
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

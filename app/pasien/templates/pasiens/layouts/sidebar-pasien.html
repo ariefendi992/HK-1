@@ -1,0 +1,51 @@
+<div class="sidebar-menu">
+  <ul class="menu">
+      <li class="sidebar-title">Menu</li>
+
+      <li class="sidebar-item {{ 'active' if filename == 'index' else '' }} ">
+          <a href="#" class='sidebar-link'>
+              <i class="bi bi-grid-fill"></i>
+              <span>Dashboard</span>
+          </a>
+      </li>
+      <li class="sidebar-item  has-sub {{ 'active' if filename == 'data-pasien' or filename == 'tambah-pasien' or filename == 'edit-pasien' else  ''}}">
+          <a href="#" class='sidebar-link'>
+              <i class="bi bi-stack"></i>
+              <span>Data Pasien</span>
+          </a>
+          <ul class="submenu {{ 'active' if filename == 'data-pasien' or filename == 'tambah-pasien' or filename == 'edit-pasien'  else  ''}}">
+              <li class="submenu-item {{ 'active' if filename == 'data-pasien'   else '' }}">
+                  <a href="{{ url_for('pasiens.dataPasien')}}">Lihat Data</a>
+              </li>
+              <li class="submenu-item {{ 'active' if filename == 'tambah-pasien'  else '' }}">
+                  <a href="{{ url_for('pasien.TambahPasien')}}">Riwayat</a>
+              </li>
+
+          </ul>
+      </li>
+
+      <li class="sidebar-item  has-sub {{ 'active' if filename == 'tambah-antrian' or filename == 'cetak-antrian' or filename == 'antrian-harian' else '' }}">
+          <a href="#" class='sidebar-link'>
+              <i class="bi bi-stack"></i>
+              <span>Antrian Poli</span>
+          </a>
+          <ul class="submenu {{ 'active' if filename == 'data-antrian' or filename == 'tambah-antrian' or filename == 'cetak-antrian' or filename == 'antrian-harian' else '' }}">
+              <li class="submenu-item {{ 'active' if filename == 'antrian-harian' else '' }}">
+                  <a href="{{ url_for('antrianp.AntrianHarian') }}">Antrian Harian</a>
+              </li>
+              <li class="submenu-item {{ 'active' if filename == 'tambah-antrian'  else '' }}">
+                  <a href="{{ url_for('antrianp.TambahAntrianPoli') }}">Tambah Antrian</a>
+              </li>
+
+          </ul>
+      </li>
+
+      <li class="sidebar-item">
+          <a href="{{ url_for('auth.Logout')}}" class='sidebar-link'>
+              <i class="bi bi"></i>
+              <span>Logout</span>
+          </a>
+      </li>
+      </li>
+  </ul>
+</div>

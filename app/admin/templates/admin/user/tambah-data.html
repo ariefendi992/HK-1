@@ -1,0 +1,174 @@
+{% from "helper/_pasien.html" import render_field  %}
+
+{% extends "layouts/base.html" %}
+
+{% set filename = 'tambah-data' %}
+
+{% block title %} Tambah Pengguna {% endblock %}
+
+{% block stylesfirst %} {% endblock %}
+
+{% block styles %} {% endblock %}
+
+{% block title_page %} <i class="bi bi-person-plus-fill"></i>
+Tambah Data{% endblock %}
+
+{% block item_page %} tambah-data {% endblock %}
+
+{% block content %}
+
+<section class="section">
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <form action="{{url_for('admin.TambahData')}}" method="POST" class="form form-vertical " novalidate>
+          {{ form.csrf_token() }}
+          <div class="col-md-12">
+            <div class="form-group row align-items-center mb-4">
+              <div class="col-lg-2 col-4 text-end">
+                {{ form.name.label(class="col-form-label", style="font-weight: 900;")}}
+              </div>
+              <div class="col-lg-4 col-8">
+                {% if form.name.errors %}
+                {{ form.name(class="form-control is-invalid", placeholder="Nama Lengkap") }}
+                {% for error in form.name.errors %}
+                <div class="invalid-feedback">
+                  <span>{{ error }}</span>
+                </div>
+                {% endfor %}
+                {% elif form.name.data %}
+                {{ form.name(class="form-control is-valid", placeholder="Nama Lengkap") }}
+                <div class="valid-feedback"></div>
+                {% else %}
+                {{ form.name(class="form-control", placeholder="Nama Lengkap") }}
+                {% endif %}
+              </div>
+            </div>
+
+            <div class="form-group row align-items-center mb-4">
+              <div class="col-lg-2 col-4 text-end">
+                {{ form.username.label(class="col-form-label", style="font-weight: 900;")}}
+              </div>
+              <div class="col-lg-4 col-8">
+                {% if form.username.errors %}
+                {{ form.username(class="form-control is-invalid", placeholder="username") }}
+                {% for error in form.username.errors %}
+                <div class="invalid-feddback">
+                  <span>{{ error }}</span>
+                </div>
+                {% endfor %}
+                {% elif form.username.data %}
+                {{ form.username(class="form-control is-valid", placeholder="username") }}
+                <div class="valid-feedback"></div>
+                {% else %}
+                {{ form.username(class="form-control", placeholder="username") }}
+                {% endif %}
+              </div>
+            </div>
+
+            <div class="form-group row align-items-center mb-4">
+              <div class="col-lg-2 col-4 text-end">
+                {{ form.telp.label(class="col-form-label", style="font-weight: 900;")}}
+              </div>
+              <div class="col-lg-4 col-8">
+                {% if form.telp.errors %}
+                {{ form.telp(class="form-control is-invalid", placeholder="Telp, HP / Whatsapp") }}
+                {% for error in form.telp.errors %}
+                <div class="invalid-feedback">
+                  <span>{{ error }}</span>
+                </div>
+                {% endfor %}
+                {% elif form.telp.data %}
+                {{ form.telp(class="form-control is-valid", placeholder="Telp, HP / Whatsapp") }}
+                <div class="valid-feedback"></div>
+                {% else %}
+                {{ form.telp(class="form-control", placeholder="Telp, HP / Whatsapp") }}
+                {% endif %}
+              </div>
+            </div>
+
+            <div class="form-group row align-items-center mb-4">
+              <div class="col-lg-2 col-4 text-end">
+                {{ form.tipe_akun.label(class="col-form-label", style="font-weight: 900;")}}
+              </div>
+              <div class="col-lg-4 col-8">
+                {% if form.tipe_akun.errors %}
+                {{ form.tipe_akun(class="form-select is-invalid") }}
+                {% for error in form.tipe_akun.errors %}
+                <div class="invalid-feedback">
+                  <span>{{ error }}</span>
+                </div>
+                {% endfor %}
+                {% elif form.tipe_akun.data %}
+                {{ form.tipe_akun(class="form-select is-valid") }}
+                <div class="valid-feedback">
+                  <span></span>
+                </div>
+                {% else %}
+                {{ form.tipe_akun(class="form-select", required="") }}
+                {% endif %}
+              </div>
+            </div>
+
+            <div class="form-group row align-items-center mb-4">
+              <div class="col-lg-2 col-4 text-end">
+                {{ form.password.label(class="col-form-label", style="font-weight: 900;")}}
+              </div>
+              <div class="col-lg-4 col-8">
+                {% if form.password.errors %}
+                {{ form.password(class="form-control is-invalid", placeholder="Minimal 6 Karakter") }}
+                {% for error in form.password.errors %}
+                <div class="invalid-feedback">
+                  <span>{{ error }}</span>
+                </div>
+                {% endfor %}
+                {# {% elif form.password.data %}
+                {{ form.password(class="form-control is-valid", placeholder="Minimal 6 Karakter") }}
+                <div class="valid-feddback"></div> #}
+                {% else %}
+                {{ form.password(class="form-control", placeholder="Minimal 6 Karakter") }}
+                {% endif %}
+              </div>
+            </div>
+
+            <div class="form-group row align-items-center">
+              <div class="col-lg-4 col-8 text-center">
+                <!-- <button type="submit" class="btn btn-primary me-1 mb-1">Simpan</button> -->
+                {#{ form.simpan(class="btn btn-primary me-1 mb-1")}#}
+                {{ btn_simpan(form.simpan)}}
+                <button type="reset" class="btn btn-secondary me-1 mb-1">Reset</button>
+
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block js %}
+<script>
+  (function () {
+    'use strict'
+
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.querySelectorAll('.needs-validation')
+
+    // Loop over them and prevent submission
+    Array.prototype.slice.call(forms)
+      .forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+          if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+          }
+
+          form.classList.add('was-validated')
+        }, false)
+      })
+  })()
+</script>
+{% endblock %}

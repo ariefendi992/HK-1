@@ -1,0 +1,47 @@
+<script type="text/javascript">
+  //	window.print(); 
+  </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halaman | {% block title %} Cetak Antrian {% endblock %}</title>
+    {% block stylesfirst %}{% endblock %}
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    {% block styles %}{% endblock %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendors/perfect-scrollbar/perfect-scrollbar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendors/bootstrap-icons/bootstrap-icons.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.svg') }}" type="image/x-icon">
+  </head>
+  
+  <body>
+    <div class="card border border-1" style="width: 18rem;">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item text-center">
+          <h3>SELAMAT DATANG</h3>
+          <h5>Di Klinik HK Medical Center</h5>
+          <h6>Jl. Baji Dakka No.56</h6>
+        </li>
+        <li class="list-group-item text-center border border-1">
+          
+          
+          <div class="row card-link">{{cetakAntrian.tgl_daftar}}</div>
+          <h4>ANTRIAN</h4>
+          <h2>{{cetakAntrian.no_antrianp}}</h2>
+          <h6>{{cetakAntrian.id_poli}}</h6>
+        </li>
+        <li class="list-group-item text-center border border-1">
+          <h3>TERIMAKASIH</h3>
+        </li>
+      </ul>
+    </div>
+    <script src="{{ url_for('static', filename='vendors/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
+  
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    {% block js %}{% endblock %}
+  
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  </body>
+  
+  </html>

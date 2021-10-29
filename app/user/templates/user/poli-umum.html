@@ -1,0 +1,101 @@
+{% extends "layouts/base-user.html" %}
+
+
+{% block title %}
+poli umum
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+  <!-- menampilkan informasi jumlah antrian -->
+  <div class="col-md-3 mb-4">
+    <div class="card border-0 shadow-sm">
+      <div class="card-body p-4">
+        <div class="d-flex justify-content-start">
+          <div class="feature-icon-3 me-4">
+            <i class="bi-people text-warning"></i>
+          </div>
+          <div class="col">
+            <p id="umum-total" class="fs-3 text-warning mb-1"></p>
+            <p class="mb-0">Jumlah Antrian</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- menampilkan informasi nomor antrian yang sedang dipanggil -->
+  <div class="col-md-3 mb-4">
+    <div class="card border-0 shadow-sm">
+      <div class="card-body p-4">
+        <div class="d-flex justify-content-start">
+          <div class="feature-icon-3 me-4">
+            <i class="bi-person-check text-success"></i>
+          </div>
+          <div>
+            <p id="umum-sekarang" class="fs-3 text-success mb-1"></p>
+            <p class="mb-0">Antrian Sekarang</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- menampilkan informasi nomor antrian yang akan dipanggil selanjutnya -->
+  <div class="col-md-3 mb-4">
+    <div class="card border-0 shadow-sm">
+      <div class="card-body p-4">
+        <div class="d-flex justify-content-start">
+          <div class="feature-icon-3 me-4">
+            <i class="bi-person-plus text-info"></i>
+          </div>
+          <div>
+            <p id="umum-selanjutnya" class="fs-3 text-info mb-1"></p>
+            <p class="mb-0">Antrian Selanjutnya</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- menampilkan informasi jumlah antrian yang belum dipanggil -->
+  <div class="col-md-3 mb-4">
+    <div class="card border-0 shadow-sm">
+      <div class="card-body p-4">
+        <div class="d-flex justify-content-start">
+          <div class="feature-icon-3 me-4">
+            <i class="bi-person text-danger"></i>
+          </div>
+          <div>
+            <p id="umum-sisa" class="fs-3 text-danger mb-1"></p>
+            <p class="mb-0">Sisa Antrian</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<script>
+  $(document).ready(function () {
+    $('#umum-total').load("{{url_for('antrianp.jsonUmumTotal')}}")
+    $('#umum-sekarang').load("{{url_for('antrianp.jsonUmumSekarang')}}")
+    $('#umum-selanjutnya').load("{{url_for('antrianp.jsonUmumSelanjutnya')}}")
+    $('#umum-sisa').load("{{url_for('antrianp.jsonUmumSisa')}}")
+
+    setInterval(function () {
+      $('#umum-total').load("{{url_for('antrianp.jsonUmumTotal')}}").fadeIn("slow"),
+        $('#umum-sekarang').load("{{url_for('antrianp.jsonUmumSekarang')}}").fadeIn("slow"),
+        $('#umum-selanjutnya').load("{{url_for('antrianp.jsonUmumSelanjutnya')}}").fadeIn("slow"),
+        $('#umum-sisa').load("{{url_for('antrianp.jsonUmumSisa')}}").fadeIn("slow"),
+        table.ajax.reload(null, false);
+
+    }, 1000);
+
+  })
+</script>
+{% endblock %}
+
+<!-- Footer -->

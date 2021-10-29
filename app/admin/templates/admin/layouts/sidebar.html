@@ -1,0 +1,98 @@
+<div class="sidebar-header">
+    <div class="d-flex justify-content-between">
+        <div class="logo">
+            <a href="#"><img src="{{ url_for('static', filename='images/logo/logoHK.png') }}" alt="Logo" style="height: 80px;" srcset=""></a>
+            <h5 style="color: #C1CFD6;">MEDICAL CENTER</h5>
+        </div>
+        <div class="toggler">
+            <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
+        </div>
+    </div>
+</div>
+<div class="sidebar-menu">
+    <ul class="menu">
+        <li class="sidebar-title">Menu</li>
+
+        <li class="sidebar-item {{ 'active' if filename == 'index' else '' }} ">
+            <a href="{{ url_for('admin.Index') }}" class='sidebar-link'>
+                <i class="bi bi-grid-fill"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+        <li class="sidebar-item  has-sub {{ 'active' if filename == 'data-pasien' or filename == 'tambah-pasien' or filename == 'edit-pasien' or filename == 'riwayat-pasien' else  ''}}">
+            <a href="#" class='sidebar-link'>
+                <i class="bi bi-people"></i>
+                <span>Data Pasien</span>
+            </a>
+            <ul class="submenu {{ 'active' if filename == 'data-pasien' or filename == 'tambah-pasien' or filename == 'edit-pasien' or filename == 'riwayat-pasien'  else  ''}}">
+                <li class="submenu-item {{ 'active' if filename == 'data-pasien'   else '' }}">
+                    <a href="{{ url_for('pasien.DataPasien')}}">Pendaftar Harian</a>
+                </li>
+                <li class="submenu-item {{ 'active' if filename == 'riwayat-pasien'  else '' }}">
+                    <a href="{{ url_for('pasien.riwayatPasien')}}">Riwayat</a>
+                </li>
+
+            </ul>
+        </li>
+
+
+
+        <li class="sidebar-item  has-sub {{ 'active' if filename == 'data-poli' or filename == 'tambah-poli' else '' }}">
+            <a href="#" class='sidebar-link'>
+                <i class="bi bi-card-list"></i>
+                <span>Kategori Poli</span>
+            </a>
+            <ul class="submenu {{ 'active' if filename == 'data-poli' or filename == 'tambah-poli' else '' }}">
+                <li class="submenu-item {{ 'active' if filename == 'data-poli' else '' }}">
+                    <a href="{{ url_for('poli.DataPoli') }}">Kategori Poli</a>
+                </li>
+                <li class="submenu-item {{ 'active' if filename == 'tambah-poli'  else '' }}">
+                    <a href="{{ url_for('poli.TambahPoli') }}">Tambah Poli</a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="sidebar-item  has-sub {{ 'active' if filename == 'data-antrian' or filename == 'tambah-antrian' or filename == 'cetak-antrian' or filename == 'antrian-harian' else '' }}">
+            <a href="#" class='sidebar-link'>
+                <i class="bi bi-receipt"></i>
+                <span>Antrian Poli</span>
+            </a>
+            <ul class="submenu {{ 'active' if filename == 'data-antrian' or filename == 'tambah-antrian' or filename == 'cetak-antrian' or filename == 'antrian-harian' else '' }}">
+                <li class="submenu-item {{ 'active' if filename == 'antrian-harian' else '' }}">
+                    <a href="{{ url_for('antrianp.AntrianHarian') }}">Antrian Harian</a>
+                </li>
+                <li class="submenu-item {{ 'active' if filename == 'tambah-antrian'  else '' }}">
+                    <a href="{{ url_for('antrianp.TambahAntrianPoli') }}">Tambah Antrian</a>
+                </li>
+                <li class="submenu-item {{ 'active' if filename == 'data-antrian' else '' }}">
+                    <a href="{{ url_for('antrianp.DataAntrian') }}">Riwayat Antrian</a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="sidebar-item  has-sub {{ 'active' if filename == 'data-pengguna' or filename == 'tambah-data' or filename == 'edit-data' else  ''}}">
+            <a href="#" class='sidebar-link'>
+                <i class="bi bi-person-fill"></i>
+                <span>Data Pengguna</span>
+            </a>
+            <ul class="submenu {{ 'active' if filename == 'data-pengguna' or filename == 'tambah-data' or filename == 'edit-data' else  ''}}">
+                <li class="submenu-item {{ 'active' if filename == 'data-pengguna' else '' }}">
+                    <a href="{{ url_for('admin.DataPengguna') }}">Lihat Data</a>
+                </li>
+                <li class="submenu-item {{ 'active' if filename == 'tambah-data' else '' }}">
+                    <a href="{{ url_for('admin.TambahData') }}">Tambah Data</a>
+                </li>
+
+            </ul>
+        </li>
+
+        <li class="sidebar-item">
+            <a href="{{ url_for('auth.Logout')}}" class='sidebar-link'>
+                <i class="bi bi-door-closed"></i>
+                <span>Logout</span>
+            </a>
+        </li>
+        </li>
+    </ul>
+</div>
+<button class="sidebar-toggler btn x"><i data-feather="x"></i></button>

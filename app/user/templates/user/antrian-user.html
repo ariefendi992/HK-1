@@ -1,0 +1,77 @@
+{% extends "layouts/base-user.html" %}
+
+
+{% block title %}
+index user
+{% endblock %}
+
+{% block content %}
+
+<div class="row gx-5">
+  <!-- link halaman nomor antrian -->
+  <div class="col-lg-6 mb-4">
+    <div class="card border-0 shadow-sm">
+      <div class="card-body p-5">
+        <div class="feature-icon-1 bg-success bg-gradient mb-4">
+          <i class="bi-people"></i>
+        </div>
+        <h3>Poli Umum</h3>
+        <p class="mb-4">Halaman ini digunakan pengunjung untuk memantau antrian.</p>
+        <a href="{{ url_for('user.poliUmum')}}" class="btn btn-success rounded-pill px-4 py-2">
+          Tampilkan <i class="bi-chevron-right ms-2"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+  <!-- link halaman panggilan antrian -->
+  <div class="col-lg-6 mb-4">
+    <div class="card border-0 shadow-sm">
+      <div class="card-body p-5">
+        <div class="feature-icon-1 bg-success bg-gradient mb-4">
+          <i class="bi-people"></i>
+        </div>
+        <h3>Poli Gigi</h3>
+        <p class="mb-4">Halaman ini digunakan pengunjung untuk memantau antrian.</p>
+        <a href="panggilan-antrian" class="btn btn-success rounded-pill px-4 py-2">
+          Tampilkan <i class="bi-chevron-right ms-2"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row gx-5">
+  <div class="col-lg-6 mb-4">
+    <div class="card border-0 shadow-sm">
+      <div class="card-body p-5">
+        <div class="feature-icon-1 bg-success bg-gradient mb-4">
+          <i class="bi-people"></i>
+        </div>
+        <h3>Poli Spesialis</h3>
+        <p class="mb-4">Halaman ini digunakan pengunjung untuk memantau antrian.</p>
+        <a href="panggilan-antrian" class="btn btn-success rounded-pill px-4 py-2">
+          Tampilkan <i class="bi-chevron-right ms-2"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-6 mb-4">
+    <div class="card border-0 shadow-sm">
+      <div class="card-body p-5">
+        <div class="feature-icon-1 bg-success bg-gradient mb-4">
+          <i class="bi-people"></i>
+        </div>
+        <h3>Poli Kesehatan Ibu & Anak</h3>
+        <p class="mb-4">Halaman ini digunakan pengunjung untuk memantau antrian.</p>
+        <a href="panggilan-antrian" class="btn btn-success rounded-pill px-4 py-2">
+          Tampilkan <i class="bi-chevron-right ms-2"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+
+
+<!-- Footer -->

@@ -1,0 +1,906 @@
+{% extends "layouts/base.html" %}
+
+{% set filename = 'antrian-harian' %}
+
+{% block title %} Data antrian Harian {% endblock %}
+
+{% block stylesfirst %}
+
+{% endblock %}
+
+{% block styles %}
+<!-- css data table -->
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dataTables.bootstrap5.min.css') }}">
+
+<!-- font awesome -->
+<link rel="stylesheet" href="{{ url_for('static', filename='vendors/fontawesome/all.min.css') }}">
+<style>
+  .fontawesome-icons {
+    text-align: center;
+  }
+
+  article dl {
+    background-color: rgba(0, 0, 0, .02);
+    padding: 20px;
+  }
+
+  .fontawesome-icons .the-icon svg {
+    font-size: 24px;
+  }
+</style>
+{% endblock %}
+
+{% block title_page %} Data antrian Harian {% endblock %}
+
+{% block item_page %} antrian-harian {% endblock %}
+
+{% block content %}
+
+<section class="section">
+  <div class="row">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <a href="{{ url_for('antrianp.TambahAntrianPoli') }}" class="btn btn-primary">
+            <i class="fa fa-plus me-1"></i> Tambah data
+          </a>
+
+        </div>
+        <div class="card-body">
+          <h5>Tabel Poli Umum</h5>
+          <hr>
+          <div class="row">
+            <div class="table-responsive">
+              <table class="table table-striped" id="tabel-antrian">
+                <thead class="">
+                  <tr>
+                    <th>Nama Pasien</th>
+                    <th>Poli</th>
+                    <th>No. Antrian</th>
+                    <th>Panggil</th>
+                    <th>Cetak</th>
+                    <th>Tanggal Daftar</th>
+                  </tr>
+                </thead>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- menampilkan informasi jumlah antrian -->
+    <div class="col-md-4 mb-1">
+      <div class="card border-1 shadow-sm">
+        <div class="card-body p-4">
+          <div class="d-flex justify-content-start">
+            <div class="feature-icon-3 me-4">
+              <i class="fas fa-users fa-3x text-warning"></i>
+            </div>
+            <div>
+              <p id="umum-total" class="fs-3 text-warning mb-1"></p>
+              <p class="mb-0">Jumlah Antrian</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- menampilkan informasi jumlah antrian yang sedang berlangsung -->
+      <div class="card border-1 shadow-sm">
+        <div class="card-body p-4">
+          <div class="d-flex justify-content-start">
+            <div class="feature-icon-3 me-4">
+              <i class="fas fa-user-check fa-3x text-success"></i>
+            </div>
+            <div>
+              <p id="umum-sekarang" class="fs-3 text-success mb-1"></p>
+              <p class="mb-0">Antrian Sekarang</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- menampilkan informasi nomor antrian selanjutnya -->
+      <div class="card border-1 shadow-sm">
+        <div class="card-body p-4">
+          <div class="d-flex justify-content-start">
+            <div class="feature-icon-3 me-4">
+              <i class="fas fa-user-plus fa-3x text-info"></i>
+            </div>
+            <div>
+              <p id="umum-selanjutnya" class="fs-3 text-info mb-1"></p>
+              <p class="mb-0">Antrian Selanjutnya</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- menampilkan informasi nomor sisa antrian -->
+      <div class="card border-1 shadow-sm">
+        <div class="card-body p-4">
+          <div class="d-flex justify-content-start">
+            <div class="feature-icon-3 me-4">
+              <i class="fas fa-user fa-3x text-danger"></i>
+            </div>
+            <div>
+              <p id="umum-sisa" class="fs-3 text-danger mb-1"></p>
+              <p class="mb-0">Sisa Antrian</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <a href="{{ url_for('antrianp.TambahAntrianPoli') }}" class="btn btn-primary">
+            <i class="fa fa-plus me-1"></i> Tambah data
+          </a>
+        </div>
+        <div class="card-body">
+          <h5>Tabel Poli Gigi</h5>
+          <hr>
+          <div class="row">
+            <div class="table-responsive">
+              <table class="table table-striped" id="poli-gigi">
+                <thead class="">
+                  <tr>
+                    <th>Nama Pasien</th>
+                    <th>Poli</th>
+                    <th>No. Antrian</th>
+                    <th>Panggil</th>
+                    <th>Cetak</th>
+                    <th>Tanggal Daftar</th>
+                  </tr>
+                </thead>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- menampilkan informasi jumlah antrian -->
+    <div class="col-md-4 mb-1">
+      <div class="card border-1 shadow-sm">
+        <div class="card-body p-4">
+          <div class="d-flex justify-content-start">
+            <div class="feature-icon-3 me-4">
+              <i class="fas fa-users fa-3x text-warning"></i>
+            </div>
+            <div>
+              <p id="gigi-total" class="fs-3 text-warning mb-1"></p>
+              <p class="mb-0">Jumlah Antrian</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- menampilkan informasi jumlah antrian yang sedang berlangsung -->
+      <div class="card border-1 shadow-sm">
+        <div class="card-body p-4">
+          <div class="d-flex justify-content-start">
+            <div class="feature-icon-3 me-4">
+              <i class="fas fa-user-check fa-3x text-success"></i>
+            </div>
+            <div>
+              <p id="gigi-sekarang" class="fs-3 text-success mb-1"></p>
+              <p class="mb-0">Antrian Sekarang</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- menampilkan informasi nomor antrian selanjutnya -->
+      <div class="card border-1 shadow-sm">
+        <div class="card-body p-4">
+          <div class="d-flex justify-content-start">
+            <div class="feature-icon-3 me-4">
+              <i class="fas fa-user-plus fa-3x text-info"></i>
+            </div>
+            <div>
+              <p id="gigi-selanjutnya" class="fs-3 text-info mb-1"></p>
+              <p class="mb-0">Antrian Selanjutnya</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- menampilkan informasi nomor sisa antrian -->
+      <div class="card border-1 shadow-sm">
+        <div class="card-body p-4">
+          <div class="d-flex justify-content-start">
+            <div class="feature-icon-3 me-4">
+              <i class="fas fa-user fa-3x text-danger"></i>
+            </div>
+            <div>
+              <p id="gigi-sisa" class="fs-3 text-danger mb-1"></p>
+              <p class="mb-0">Sisa Antrian</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <a href="{{ url_for('antrianp.TambahAntrianPoli') }}" class="btn btn-primary">
+            <i class="fa fa-plus me-1"></i> Tambah data
+          </a>
+        </div>
+        <div class="card-body">
+          <h5>Tabel Poli Spesialis</h5>
+          <hr>
+          <div class="row">
+            <div class="table-responsive">
+              <table class="table table-striped" id="poli-spesialis">
+                <thead class="">
+                  <tr>
+                    <th>Nama Pasien</th>
+                    <th>Poli</th>
+                    <th>No. Antrian</th>
+                    <th>Panggil</th>
+                    <th>Cetak</th>
+                    <th>Tanggal Daftar</th>
+                  </tr>
+                </thead>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- menampilkan informasi jumlah antrian -->
+    <div class="col-md-4 mb-1">
+      <div class="card border-1 shadow-sm">
+        <div class="card-body p-4">
+          <div class="d-flex justify-content-start">
+            <div class="feature-icon-3 me-4">
+              <i class="fas fa-users fa-3x text-warning"></i>
+            </div>
+            <div>
+              <p id="spesialis-total" class="fs-3 text-warning mb-1"></p>
+              <p class="mb-0">Jumlah Antrian</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- menampilkan informasi jumlah antrian yang sedang berlangsung -->
+      <div class="card border-1 shadow-sm">
+        <div class="card-body p-4">
+          <div class="d-flex justify-content-start">
+            <div class="feature-icon-3 me-4">
+              <i class="fas fa-user-check fa-3x text-success"></i>
+            </div>
+            <div>
+              <p id="spesialis-sekarang" class="fs-3 text-success mb-1"></p>
+              <p class="mb-0">Antrian Sekarang</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- menampilkan informasi nomor antrian selanjutnya -->
+      <div class="card border-1 shadow-sm">
+        <div class="card-body p-4">
+          <div class="d-flex justify-content-start">
+            <div class="feature-icon-3 me-4">
+              <i class="fas fa-user-plus fa-3x text-info"></i>
+            </div>
+            <div>
+              <p id="spesialis-selanjutnya" class="fs-3 text-info mb-1"></p>
+              <p class="mb-0">Antrian Selanjutnya</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- menampilkan informasi nomor sisa antrian -->
+      <div class="card border-1 shadow-sm">
+        <div class="card-body p-4">
+          <div class="d-flex justify-content-start">
+            <div class="feature-icon-3 me-4">
+              <i class="fas fa-user fa-3x text-danger"></i>
+            </div>
+            <div>
+              <p id="spesialis-sisa" class="fs-3 text-danger mb-1"></p>
+              <p class="mb-0">Sisa Antrian</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <a href="{{ url_for('antrianp.TambahAntrianPoli') }}" class="btn btn-primary">
+            <i class="fa fa-plus me-1"></i> Tambah data
+          </a>
+        </div>
+        <div class="card-body">
+          <h5>Tabel Poli Kesehatan Ibu dan Anak</h5>
+          <hr>
+          <div class="row">
+            <div class="table-responsive">
+              <table class="table table-striped" id="poli-kia">
+                <thead class="">
+                  <tr>
+                    <th>Nama Pasien</th>
+                    <th>Poli</th>
+                    <th>No. Antrian</th>
+                    <th>Panggil</th>
+                    <th>Cetak</th>
+                    <th>Tanggal Daftar</th>
+                  </tr>
+                </thead>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- menampilkan informasi jumlah antrian -->
+    <div class="col-md-4 mb-1">
+      <div class="card border-1 shadow-sm">
+        <div class="card-body p-4">
+          <div class="d-flex justify-content-start">
+            <div class="feature-icon-3 me-4">
+              <i class="fas fa-users fa-3x text-warning"></i>
+            </div>
+            <div>
+              <p id="kia-total" class="fs-3 text-warning mb-1"></p>
+              <p class="mb-0">Jumlah Antrian</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- menampilkan informasi jumlah antrian yang sedang berlangsung -->
+      <div class="card border-1 shadow-sm">
+        <div class="card-body p-4">
+          <div class="d-flex justify-content-start">
+            <div class="feature-icon-3 me-4">
+              <i class="fas fa-user-check fa-3x text-success"></i>
+            </div>
+            <div>
+              <p id="kia-sekarang" class="fs-3 text-success mb-1"></p>
+              <p class="mb-0">Antrian Sekarang</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- menampilkan informasi nomor antrian selanjutnya -->
+      <div class="card border-1 shadow-sm">
+        <div class="card-body p-4">
+          <div class="d-flex justify-content-start">
+            <div class="feature-icon-3 me-4">
+              <i class="fas fa-user-plus fa-3x text-info"></i>
+            </div>
+            <div>
+              <p id="kia-selanjutnya" class="fs-3 text-info mb-1"></p>
+              <p class="mb-0">Antrian Selanjutnya</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- menampilkan informasi nomor sisa antrian -->
+      <div class="card border-1 shadow-sm">
+        <div class="card-body p-4">
+          <div class="d-flex justify-content-start">
+            <div class="feature-icon-3 me-4">
+              <i class="fas fa-user fa-3x text-danger"></i>
+            </div>
+            <div>
+              <p id="kia-sisa" class="fs-3 text-danger mb-1"></p>
+              <p class="mb-0">Sisa Antrian</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</section>
+
+{% endblock %}
+
+{% block audio %}
+<audio id="tingtung" src="{{ url_for('static', filename='audio/tingtung.mp3') }}"></audio>
+{% endblock  %}
+
+
+{% block js %}
+
+<!-- jQuery Core -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Get API Key -> https://responsivevoice.org/ -->
+<script src="https://code.responsivevoice.org/responsivevoice.js?key=jQZ2zcdq"></script>
+
+<script src="{{ url_for('static', filename='vendors/fontawesome/all.min.js') }}"></script>
+
+{#<!-- JQuery 3.5.1 -->
+<script src="{{ url_for('static', filename='js/jquery-3.5.1.js') }}"></script>
+{#}
+<!-- jquery data-table -->
+<script src="{{ url_for('static', filename='js/jquery.dataTables.min.js') }}"></script>
+
+<!-- data-table bootsrap5 -->
+<script src="{{ url_for('static', filename='js/dataTables.bootstrap5.min.js') }}"></script>
+
+<script>
+  $(document).ready(function () {
+    $('#example').DataTable();
+  });
+</script>
+
+<!-- Poli Umum -->
+<script>
+  $(document).ready(function () {
+    $('#umum-total').load("{{url_for('antrianp.jsonUmumTotal')}}")
+    $('#umum-sekarang').load("{{url_for('antrianp.jsonUmumSekarang')}}")
+    $('#umum-selanjutnya').load("{{url_for('antrianp.jsonUmumSelanjutnya')}}")
+    $('#umum-sisa').load("{{url_for('antrianp.jsonUmumSisa')}}")
+
+    var table = $('#tabel-antrian').DataTable({
+      "ajax": "{{ url_for('antrianp.jsonUmumHarian') }}",
+      "columns": [{
+          "data": "nama_p",
+          "width": "150px"
+        },
+        {
+          "data": "nama_poli",
+          "className": 'text-left',
+          "width": "200px"
+        },
+        {
+          "data": "no_antrianp",
+          "className": "text-center",
+
+        },
+
+        {
+          "data": null,
+          "width": "10px",
+          "className": "text-center",
+          "render": function (data, type) {
+            if (data["status"] === "") {
+              var btn = '-'
+            } else if (data['status'] == 0) {
+              var btn =
+                `<button class="btn btn-outline-success btn-sm"><i class="fa fa-microphone-alt"></i></button>`
+            } else if (data['status'] == 1) {
+              var btn =
+                `<button class="btn btn-outline-secondary btn-sm"><i class="fa fa-microphone-alt"></i></button>`
+            }
+            return btn
+          }
+
+        },
+        {
+          "data": null,
+          "className": "text-center",
+          "width": "10px",
+          "render": function (data) {
+            if (data["id"]) {
+              var cetak = `<a href="{{ url_for('antrianp.Cetak', id=id) }}` + data['id'] + `" target="_blank" class="btn btn-sm btn-outline-warning"
+              data-bs-toggle="tooltip" data-bs-placement="top" title="Cetak Antrian ` + data['nama_p'] + ` !">
+              <i class="fa fa-print"></i>`
+            }
+            return cetak
+          }
+
+        },
+        {
+          "data": "tgl_daftar",
+          "visible": false
+        }
+      ],
+      "order": [
+        [2, 'desc']
+      ]
+    });
+
+    $('#tabel-antrian tbody').on('click', 'button', function () {
+      var data = table.row($(this).parents('tr')).data()
+
+      var id = data['id']
+
+      var bunyiTing = document.getElementById('tingtung')
+
+      bunyiTing.pause()
+      bunyiTing.currentTime = 0;
+      bunyiTing.play();
+
+      durasiBunyi = bunyiTing.duration * 770;
+
+
+      setTimeout(function () {
+        if (data['id_poli']) {
+          responsiveVoice.speak("panggilan Untuk, Nomor Antrian, " + data["no_antrianp"] + ", atas nama " +
+            data['nama_p'] + ", menuju, " + data['nama_poli'] + "",
+            "Indonesian Female", {
+              rate: 0.9,
+              pitch: 1,
+              volume: 1
+            });
+        }
+
+      }, durasiBunyi);
+
+      $.ajax({
+        type: "PUT", // mengirim data dengan method POST
+        url: "{{ url_for('antrianp.jsonUmumUp',id=id)}}" + id, // url file proses update data
+        data: {
+          ' id': id
+        } // tentukan data yang dikirim
+      });
+    })
+    setInterval(function () {
+      $('#umum-total').load("{{url_for('antrianp.jsonUmumTotal')}}").fadeIn("slow"),
+        $('#umum-sekarang').load("{{url_for('antrianp.jsonUmumSekarang')}}").fadeIn("slow"),
+        $('#umum-selanjutnya').load("{{url_for('antrianp.jsonUmumSelanjutnya')}}").fadeIn("slow"),
+        $('#umum-sisa').load("{{url_for('antrianp.jsonUmumSisa')}}").fadeIn("slow"),
+        table.ajax.reload(null, false);
+
+    }, 1000);
+
+  })
+</script>
+
+<!-- data poli gigi -->
+<script>
+  $(document).ready(function () {
+    $('#gigi-total').load("{{url_for('antrianp.jsonGigiTotal')}}")
+    $('#gigi-sekarang').load("{{url_for('antrianp.jsonGigiSekarang')}}")
+    $('#gigi-selanjutnya').load("{{url_for('antrianp.jsonGigiSelanjutnya')}}")
+    $('#gigi-sisa').load("{{url_for('antrianp.jsonGigiSisa')}}")
+
+
+    var table = $('#poli-gigi').DataTable({
+      "ajax": "{{ url_for('antrianp.jsonGigiHarian') }}",
+      "columns": [{
+          "data": "nama_p",
+          "width": "150px"
+        },
+        {
+          "data": "nama_poli",
+          "className": 'text-left',
+          "width": "200px"
+        },
+        {
+          "data": "no_antrianp",
+          "className": "text-center",
+
+        },
+
+        {
+          "data": null,
+          "width": "10px",
+          "className": "text-center",
+          "render": function (data, type) {
+            if (data["status"] === "") {
+              var btn = '-'
+            } else if (data['status'] == 0) {
+              var btn =
+                `<button class="btn btn-outline-success btn-sm"><i class="fa fa-microphone-alt"></i></button>`
+            } else if (data['status'] == 1) {
+              var btn =
+                `<button class="btn btn-outline-secondary btn-sm"><i class="fa fa-microphone-alt"></i></button>`
+            }
+            return btn
+          }
+
+        },
+        {
+          "data": null,
+          "className": "text-center",
+          "width": "10px",
+          "render": function (data) {
+            if (data["id"]) {
+              var cetak = `<a href="{{ url_for('antrianp.Cetak', id=id) }}` + data['id'] + `" target="_blank" class="btn btn-sm btn-outline-warning"
+              data-bs-toggle="tooltip" data-bs-placement="top" title="Cetak Antrian ` + data['nama_p'] + ` !">
+              <i class="fa fa-print"></i>`
+            }
+            return cetak
+          }
+
+        },
+        {
+          "data": "tgl_daftar",
+          "visible": false
+        }
+      ],
+      "order": [
+        [2, 'desc']
+      ]
+    });
+
+    $('#poli-gigi tbody').on('click', 'button', function () {
+      var data = table.row($(this).parents('tr')).data()
+
+      var id = data['id']
+
+      var bunyiTing = document.getElementById('tingtung')
+
+      bunyiTing.pause()
+      bunyiTing.currentTime = 0;
+      bunyiTing.play();
+
+      durasiBunyi = bunyiTing.duration * 770;
+
+
+      setTimeout(function () {
+        if (data['id_poli']) {
+          responsiveVoice.speak("panggilan Untuk, Nomor Antrian, " + data["no_antrianp"] + ", atas nama " +
+            data['nama_p'] + ", menuju, " + data['nama_poli'] + "",
+            "Indonesian Male", {
+              rate: 0.9,
+              pitch: 1,
+              volume: 1
+            });
+        }
+
+      }, durasiBunyi);
+
+      $.ajax({
+        type: "PUT", // mengirim data dengan method POST
+        url: "{{ url_for('antrianp.jsonUmumUp',id=id)}}" + id, // url file proses update data
+        data: {
+          ' id': id
+        } // tentukan data yang dikirim
+      });
+    })
+    setInterval(function () {
+      $('#gigi-total').load("{{url_for('antrianp.jsonGigiTotal')}}").fadeIn('slow'),
+        $('#gigi-sekarang').load("{{url_for('antrianp.jsonGigiSekarang')}}").fadeIn('slow'),
+        $('#gigi-selanjutnya').load("{{url_for('antrianp.jsonGigiSelanjutnya')}}").fadeIn('slow'),
+        $('#gigi-sisa').load("{{url_for('antrianp.jsonGigiSisa')}}").fadeIn('slow'),
+        table.ajax.reload(null, false);
+    }, 1000);
+  })
+</script>
+
+<!-- Poli Kesehatan Ibu dan Anak -->
+<script>
+  $(document).ready(function () {
+    $('#kia-total').load("{{url_for('antrianp.jsonKiaTotal')}}")
+    $('#kia-sekarang').load("{{url_for('antrianp.jsonKiaSekarang')}}")
+    $('#kia-selanjutnya').load("{{url_for('antrianp.jsonKiaSelanjutnya')}}")
+    $('#kia-sisa').load("{{url_for('antrianp.jsonKiaSisa')}}")
+
+
+    var table = $('#poli-kia').DataTable({
+      "ajax": "{{ url_for('antrianp.jsonKiaHarian') }}",
+      "columns": [{
+          "data": "nama_p",
+          "width": "150px"
+        },
+        {
+          "data": "nama_poli",
+          "className": 'text-left',
+          "width": "200px"
+        },
+        {
+          "data": "no_antrianp",
+          "className": "text-center",
+
+        },
+
+        {
+          "data": null,
+          "width": "10px",
+          "className": "text-center",
+          "render": function (data, type) {
+            if (data["status"] === "") {
+              var btn = '-'
+            } else if (data['status'] == 0) {
+              var btn =
+                `<button class="btn btn-outline-success btn-sm"><i class="fa fa-microphone-alt"></i></button>`
+            } else if (data['status'] == 1) {
+              var btn =
+                `<button class="btn btn-outline-secondary btn-sm"><i class="fa fa-microphone-alt"></i></button>`
+            }
+            return btn
+          }
+
+        },
+        {
+          "data": null,
+          "className": "text-center",
+          "width": "10px",
+          "render": function (data) {
+            if (data["id"]) {
+              var cetak = `<a href="{{ url_for('antrianp.Cetak', id=id) }}` + data['id'] + `" target="_blank" class="btn btn-sm btn-outline-warning"
+              data-bs-toggle="tooltip" data-bs-placement="top" title="Cetak Antrian ` + data['nama_p'] + ` !">
+              <i class="fa fa-print"></i>`
+            }
+            return cetak
+          }
+
+        },
+        {
+          "data": "tgl_daftar",
+          "visible": false
+        }
+      ],
+      "order": [
+        [2, 'desc']
+      ]
+    });
+
+    $('#poli-kia tbody').on('click', 'button', function () {
+      var data = table.row($(this).parents('tr')).data()
+
+      var id = data['id']
+
+      var bunyiTing = document.getElementById('tingtung')
+
+      bunyiTing.pause()
+      bunyiTing.currentTime = 0;
+      bunyiTing.play();
+
+      durasiBunyi = bunyiTing.duration * 770;
+
+
+      setTimeout(function () {
+        if (data['id_poli']) {
+          responsiveVoice.speak("panggilan Untuk, Nomor Antrian, " + data["no_antrianp"] + ", atas nama " +
+            data['nama_p'] + ", menuju, " + data['nama_poli'] + "",
+            "Indonesian Male", {
+              rate: 0.9,
+              pitch: 1,
+              volume: 1
+            });
+        }
+
+      }, durasiBunyi);
+
+      $.ajax({
+        type: "PUT", // mengirim data dengan method POST
+        url: "{{ url_for('antrianp.jsonUmumUp',id=id)}}" + id, // url file proses update data
+        data: {
+          ' id': id
+        } // tentukan data yang dikirim
+      });
+    })
+    setInterval(function () {
+      $('#kia-total').load("{{url_for('antrianp.jsonKiaTotal')}}").fadeIn('slow'),
+        $('#kia-sekarang').load("{{url_for('antrianp.jsonKiaSekarang')}}").fadeIn('slow'),
+        $('#kia-selanjutnya').load("{{url_for('antrianp.jsonKiaSelanjutnya')}}").fadeIn('slow'),
+        $('#kia-sisa').load("{{url_for('antrianp.jsonKiaSisa')}}").fadeIn('slow'),
+        table.ajax.reload(null, false);
+    }, 1000);
+  })
+</script>
+
+<!-- Poli Spesialis -->
+<script>
+  $(document).ready(function () {
+    $('#spesialis-total').load("{{url_for('antrianp.jsonSpesialisTotal')}}")
+    $('#spesialis-sekarang').load("{{url_for('antrianp.jsonSpesialisSekarang')}}")
+    $('#spesialis-selanjutnya').load("{{url_for('antrianp.jsonSpesialisSelanjutnya')}}")
+    $('#spesialis-sisa').load("{{url_for('antrianp.jsonSpesialisSisa')}}")
+
+    var table = $('#poli-spesialis').DataTable({
+      "ajax": "{{ url_for('antrianp.jsonSpesialisHarian') }}",
+      "columns": [{
+          "data": "nama_p",
+          "width": "150px"
+        },
+        {
+          "data": "nama_poli",
+          "className": 'text-left',
+          "width": "200px"
+        },
+        {
+          "data": "no_antrianp",
+          "className": "text-center",
+
+        },
+
+        {
+          "data": null,
+          "width": "10px",
+          "className": "text-center",
+          "render": function (data, type) {
+            if (data["status"] === "") {
+              var btn = '-'
+            } else if (data['status'] == 0) {
+              var btn =
+                `<button class="btn btn-outline-success btn-sm"><i class="fa fa-microphone-alt"></i></button>`
+            } else if (data['status'] == 1) {
+              var btn =
+                `<button class="btn btn-outline-secondary btn-sm"><i class="fa fa-microphone-alt"></i></button>`
+            }
+            return btn
+          }
+
+        },
+        {
+          "data": null,
+          "className": "text-center",
+          "width": "10px",
+          "render": function (data) {
+            if (data["id"]) {
+              var cetak = `<a href="{{ url_for('antrianp.Cetak', id=id) }}` + data['id'] + `" target="_blank" class="btn btn-sm btn-outline-warning"
+              data-bs-toggle="tooltip" data-bs-placement="top" title="Cetak Antrian ` + data['nama_p'] + ` !">
+              <i class="fa fa-print"></i>`
+            }
+            return cetak
+          }
+
+        },
+        {
+          "data": "tgl_daftar",
+          "visible": false
+        }
+      ],
+      "order": [
+        [2, 'desc']
+      ]
+    });
+
+    $('#poli-spesialis tbody').on('click', 'button', function () {
+      var data = table.row($(this).parents('tr')).data()
+
+      var id = data['id']
+
+      var bunyiTing = document.getElementById('tingtung')
+
+      bunyiTing.pause()
+      bunyiTing.currentTime = 0;
+      bunyiTing.play();
+
+      durasiBunyi = bunyiTing.duration * 770;
+
+
+      setTimeout(function () {
+        if (data['id_poli']) {
+          responsiveVoice.speak("panggilan Untuk, Nomor Antrian, " + data["no_antrianp"] + ", atas nama " +
+            data['nama_p'] + ", menuju, " + data['nama_poli'] + "",
+            "Indonesian Male", {
+              rate: 0.9,
+              pitch: 1,
+              volume: 1
+            });
+        }
+
+      }, durasiBunyi);
+
+      $.ajax({
+        type: "PUT", // mengirim data dengan method POST
+        url: "{{ url_for('antrianp.jsonUmumUp',id=id)}}" + id, // url file proses update data
+        data: {
+          ' id': id
+        } // tentukan data yang dikirim
+      });
+    })
+    setInterval(function () {
+      $('#spesialis-total').load("{{url_for('antrianp.jsonSpesialisTotal')}}").fadeIn('slow'),
+        $('#spesialis-sekarang').load("{{url_for('antrianp.jsonSpesialisSekarang')}}").fadeIn('slow'),
+        $('#spesialis-selanjutnya').load("{{url_for('antrianp.jsonSpesialisSelanjutnya')}}").fadeIn('slow'),
+        $('#spesialis-sisa').load("{{url_for('antrianp.jsonSpesialisSisa')}}").fadeIn('slow'),
+        table.ajax.reload(null, false);
+    }, 1000);
+  })
+</script>
+
+{% endblock %}

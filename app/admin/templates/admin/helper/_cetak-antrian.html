@@ -1,0 +1,61 @@
+<script type="text/javascript">
+  window.print();
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Halaman | {% block title %} Cetak Antrian {% endblock %}</title>
+{% block stylesfirst %}{% endblock %}
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+{% block styles %}{% endblock %}
+<link rel="stylesheet" href="{{ url_for('static', filename='vendors/perfect-scrollbar/perfect-scrollbar.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='vendors/bootstrap-icons/bootstrap-icons.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+<link rel="shortcut icon" href="{{ url_for('static', filename='images/logo/logoHK.png') }}" type="image/x-icon">
+</head>
+<style>
+  body {
+    background-color: rgba(121, 95, 95, 0.315);
+  }
+</style>
+
+<body>
+  <div class="card border border-2" style="width: 18rem;">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item text-center mb-0">
+        <img src="{{ url_for('static', filename='images/logo/logoHK.png') }}" style="height: 30px;" alt="">
+        <h5>HK Medical Center</h5>
+        <h6>Jl. Baji Dakka No.59.A</h6>
+        <p><em>Amanah, Profesional serta melayani dengan hati.</em></p>
+        <hr width="100%">
+
+        <h4>ANTRIAN</h4>
+        <h2>00{{ cetakAntrian.no_antrianp }}</h2>
+        {% if cetakAntrian.id_poli == 1 %}
+        <h6>POLI UMUM</h6>
+        {% elif cetakAntrian.id_poli == 2 %}
+        <h6>POLI GIGI</h6>
+        {% elif cetakAntrian.id_poli == 3 %}
+        <h6>POLI SPESIAL</h6>
+        {% elif cetakAntrian.id_poli == 4 %}
+        <h6>POLI KESEHATAN IBU & ANAK</h6>
+        {% else %}
+        <h6>Nama Poli</h6>
+        {% endif %}
+      </li>
+      <li class="list-group-item text-center border border-1">
+        <p> Tanggal : {{ cetakAntrian.tgl_daftar|dateformat('%d %B %Y') }}</p>
+        <h6>Semoga Sehat Selalu</h6>
+      </li>
+    </ul>
+  </div>
+  <script src="{{ url_for('static', filename='vendors/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
+
+  <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+  {% block js %}{% endblock %}
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+
+</html>

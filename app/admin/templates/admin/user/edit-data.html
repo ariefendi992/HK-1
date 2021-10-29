@@ -1,0 +1,155 @@
+{% extends "layouts/base.html" %}
+
+{% set filename = 'edit-data' %}
+
+{% block title %} Ubah Data {% endblock %}
+
+{% block stylesfirst %} {% endblock %}
+
+{% block styles %} {% endblock %}
+
+{% block title_page %} <i class="bi bi-person-fill"></i>
+Ubah Data{% endblock %}
+
+{% block item_page %} ubah-data {% endblock %}
+
+{% block content %}
+
+<section class="section">
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <form action="" method="POST" class="form form-vertical">
+          {{ form.csrf_token() }}
+          <div class="col-md-12">
+            <div class="form-group row align-items-center mb-4">
+              <div class="col-lg-2 col-4 text-end">
+                {{ form.nama.label(class="col-form-label", style="font-weight: 900;")}}
+              </div>
+              <div class="col-lg-4 col-8">
+                {% if form.nama.errors %}
+                {{ form.nama(class="form-control is-invalid", placeholder="Nama Lengkap") }}
+                {% for error in form.nama.errors %}
+                <div class="invalid-feedback">
+                  <span>{{ error }}</span>
+                </div>
+                {% endfor %}
+                {% elif form.nama.data %}
+                {{ form.nama(class="form-control is-valid", placeholder="Nama Lengkap") }}
+                <div class="valid-feedback"></div>
+                {% else %}
+                {{ form.nama(class="form-control", placeholder="Nama Lengkap") }}
+                {% endif %}
+              </div>
+            </div>
+
+            <div class="form-group row align-items-center mb-4">
+              <div class="col-lg-2 col-4 text-end">
+                {{ form.username.label(class="col-form-label", style="font-weight: 900;")}}
+              </div>
+              <div class="col-lg-4 col-8">
+                {% if form.username.errors %}
+                {{ form.username(class="form-control is-invalid") }}
+                {% for error in form.username.errors %}
+                <div class="invalid-feddback">
+                  <span>{{ error }}</span>
+                </div>
+                {% endfor %}
+                {% elif form.username.data %}
+                {{ form.username(class="form-control is-valid") }}
+                <div class="valid-feedback"></div>
+                {% else %}
+                {{ form.username(class="form-control") }}
+                {% endif %}
+              </div>
+            </div>
+
+            <div class="form-group row align-items-center mb-4">
+              <div class="col-lg-2 col-4 text-end">
+                {{ form.telp.label(class="col-form-label", style="font-weight: 900;")}}
+              </div>
+              <div class="col-lg-4 col-8">
+                {% if form.telp.errors %}
+                {{ form.telp(class="form-control is-invalid", placeholder="Telp, HP / Whatsapp") }}
+                {% for error in form.telp.errors %}
+                <div class="invalid-feedback">
+                  <span>{{ error }}</span>
+                </div>
+                {% endfor %}
+                {% elif form.telp.data %}
+                {{ form.telp(class="form-control is-valid", placeholder="Telp, HP / Whatsapp") }}
+                <div class="valid-feedback"></div>
+                {% else %}
+                {{ form.telp(class="form-control", placeholder="Telp, HP / Whatsapp") }}
+                {% endif %}
+              </div>
+            </div>
+
+            <div class="form-group row align-items-center mb-4">
+              <div class="col-lg-2 col-4 text-end">
+                {{ form.role_id.label(class="col-form-label", style="font-weight: 900;")}}
+              </div>
+              <div class="col-lg-4 col-8">
+
+                {{ form.role_id(class="form-select") }}
+              </div>
+            </div>
+
+            <div class="form-group row align-items-center mb-4">
+              <div class="col-lg-2 col-4 text-end">
+                {{ form.password.label(class="col-form-label", style="font-weight: 900;")}}
+              </div>
+              <div class="col-lg-4 col-8">
+                {% if form.password.errors %}
+                {{ form.password(class="form-control is-invalid", placeholder="Masukkan Password") }}
+                {% for error in form.password.errors %}
+                <div class="invalid-feedback">
+                  <span>{{ error }}</span>
+                </div>
+                {% endfor %}
+                {% elif form.password.data %}
+                {{ form.password(class="form-control", placeholder="Masukkan Password") }}
+                <!-- <div class="valid-feddback"></div> -->
+                {% else %}
+                {{ form.password(class="form-control", placeholder="Masukkan Password") }}
+                {% endif %}
+              </div>
+            </div>
+
+            <div class="form-group row align-items-center mb-4">
+              <div class="col-lg-2 col-4 text-end">
+                {{ form.konf_password.label(class="col-form-label", style="font-weight: 900;")}}
+              </div>
+              <div class="col-lg-4 col-8">
+                {% if form.konf_password.errors %}
+                {{ form.konf_password(class="form-control is-invalid", placeholder="Ulangi Password") }}
+                {% for error in form.konf_password.errors %}
+                <div class="invalid-feedback">
+                  <span>{{ error }}</span>
+                </div>
+                {% endfor %}
+                {% elif form.konf_password.data %}
+                {{ form.konf_password(class="form-control", placeholder="Ulangi Password") }}
+                <!-- <div class="valid-feddback"></div> -->
+                {% else %}
+                {{ form.konf_password(class="form-control", placeholder="Ulangi Password") }}
+                {% endif %}
+              </div>
+            </div>
+
+            <div class="form-group row align-items-center">
+              <div class="col-lg-4 col-8 text-center">
+                <button type="submit" class="btn btn-primary me-1 mb-1">Simpan</button>
+                <button type="reset" class="btn btn-secondary me-1 mb-1">Reset</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block js %}{% endblock %}

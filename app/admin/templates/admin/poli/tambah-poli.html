@@ -1,0 +1,51 @@
+{% extends "layouts/base.html" %}
+
+{% set filename = 'tambah-poli' %}
+
+{% block title %} Tambah Poli {% endblock %}
+
+{% block stylesfirst %}
+{% endblock %}
+
+{% block styles %} {% endblock %}
+
+{% block title_page %} <i class="bi bi plus-fill"></i>
+Tambah Poli{% endblock %}
+
+{% block item_page %} tambah-poli {% endblock %}
+
+{% block content %}
+
+<section class="section">
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <form action="" method="POST" class="form form-vertical" novalidate>
+          {{ form.csrf_token() }}
+          {{ render_field(form.kodeP, placeholder=form.kodeP.label.text )}}
+          {{ render_field(form.namaP, placeholder="Nama Poli" )}}
+          <div class="form-group row align-items-center">
+            <div class="col-lg-2 col-4 text-end">
+              
+            </div>
+            <div class="col-lg-4 col-8">
+              {{ btn_simpan(form.simpan)}}
+              {{ btn_secondary(type="reset", value="Batal")}}
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+{% endblock %}
+
+{% block js %}
+<script>
+  
+
+</script>
+{% endblock  %}

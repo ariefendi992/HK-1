@@ -1,0 +1,52 @@
+{% extends "layouts/base.html" %}
+
+{% set filename = 'tambah-pasien' %}
+
+{% block title %} Tambah Pasien {% endblock %}
+
+{% block stylesfirst %}
+{% endblock %}
+
+{% block styles %} {% endblock %}
+
+{% block title_page %} <i class="bi bi-person-plus-fill"></i>
+Tambah Pasien{% endblock %}
+
+{% block item_page %} tambah-pasien {% endblock %}
+
+{% block content %}
+
+<section class="section">
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <form action="{{ url_for('pasien.TambahPasien')}}" method="POST" class="form form-vertical" novalidate>
+          {{ form.csrf_token() }}
+          {{ render_field(form.noid, placeholder=form.noid.label.text )}}
+          {{ render_field(form.nama, placeholder="Nama Lengkap" )}}
+          {{ render_radio_fields(form.jk) }}
+          {{ render_field(form.tgl_lahir, placeholder="Tgl / Bulan / Tahun" )}}
+          {{ render_field(form.alamat, placeholder="Alamat" )}}
+          {{ render_field(form.telp, placeholder="No Telp" )}}
+          <div class="form-group row align-items-center">
+            <div class="col-lg-4 col-8 text-center">
+              {{ btn_simpan(form.simpan)}}
+              {{ btn_secondary(type="reset", value="Batal")}}
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+{% endblock %}
+
+{% block js %}
+<script>
+  
+
+</script>
+{% endblock  %}

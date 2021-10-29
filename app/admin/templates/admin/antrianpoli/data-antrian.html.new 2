@@ -1,0 +1,182 @@
+{% extends "layouts/base.html" %}
+
+{% set filename = 'data-antrian' %}
+
+{% block title %} Data antrian {% endblock %}
+
+{% block stylesfirst %}
+{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='vendors/simple-datatables/style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='vendors/fontawesome/all.min.css') }}">
+<style>
+  .fontawesome-icons {
+    text-align: center;
+  }
+
+  article dl {
+    background-color: rgba(0, 0, 0, .02);
+    padding: 20px;
+  }
+
+  .fontawesome-icons .the-icon svg {
+    font-size: 24px;
+  }
+</style>
+{% endblock %}
+
+{% block title_page %} Data antrian {% endblock %}
+
+{% block item_page %} data-antrian {% endblock %}
+
+{% block content %}
+
+<section class="section">
+  <div class="card">
+    <div class="card-header">
+      <a href="{{ url_for('antrianp.TambahAntrianPoli') }}" class="btn btn-primary">
+        <i class="fa fa-plus me-1"></i> Tambah data
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="table-responsive">
+          <table class="table table-striped" id="table1">
+            <thead class="">
+              <tr>
+                <th>No.</th>
+                <th>Nama Pasien</th>
+                <th>Poli</th>
+                <th>No. Antrian</th>
+                <th>Tgl Daftar</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {% for page, name, poli in dataAntrian %}
+              <tr>
+                <td>{{ loop.index }}</td>
+                <td> {{ name.nama_p }}</td>
+                <td>{{ poli.nama_poli }}</td>
+                <td>{{ page.no_antrianp }}</td>
+                <td>{{ page.tgl_daftar|dateformat('%d-%B-%Y')}}</td>
+                <td>
+                  <a href="{{ url_for('antrianp.Cetak', id=page.id) }}" target="_blank" class="btn btn-outline-warning"
+                    data-bs-toggle="tooltip" data-bs-placement="top" title="Cetak Antrian {{ name.nama_p }} !">
+                    <i class="fa fa-print"></i>
+                  </a>
+                  <a class="btn btn-outline-danger" href="" data-bs-toggle="modal" data-bs-placement="top"
+                    title="Hapus Data {{ page.nama_p }} !" data-bs-target="#hapusModal{{page.id}}">
+                    <i class="fa fa-trash-alt"></i>
+                  </a>
+                  <button id="tombol{{page.id}}" class="btn btn-outline-success">
+                    <i class="fa fa-microphone"></i>
+                  </button>
+                </td>
+              </tr>
+              {% endfor %}
+              {% for page, name, poli in dataAntrian %}
+              {% include "modal/modal-deleteAntrian.html" %}
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        Antrian sekarang : {{ no_antrian }} | Antrian selanjutnya : {{ no_antrian2 }}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block audio %}
+<audio id="tingtung" src="{{ url_for('static', filename='audio/tingtung.mp3') }}"></audio>
+{% endblock  %}
+
+
+{% block js %}
+
+<!-- jQuery Core -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Get API Key -> https://responsivevoice.org/ -->
+<script src="https://code.responsivevoice.org/responsivevoice.js?key=jQZ2zcdq"></script>
+
+
+<script src="{{ url_for('static', filename='vendors/fontawesome/all.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendors/simple-datatables/simple-datatables.js') }}"></script>
+<script>
+  // Simple Datatable
+  let table1 = document.querySelector('#table1');
+  let dataTable = new simpleDatatables.DataTable(table1) ;
+</script>
+{% for page, name, poli in dataAntrian %}
+<script>
+  $(document).ready(function () {
+
+
+
+    $('#table1').on('click', '#tombol{{page.id}}', function () {
+      
+
+      // ambil data dari datatables 
+     // var data = table.row($(this).parents('tr')).data();
+      // buat variabel untuk menampilkan data "id"
+      var id = "{{page.id}}"
+      console.log(id)
+
+      var bell = document.getElementById('tingtung')
+
+      bell.pause();
+      bell.currentTime = 0;
+      bell.play();
+
+      durasi_bell = bell.duration * 770;
+
+      setTimeout(function () {
+        if ('{{page.id_poli}}' === "1") {
+          responsiveVoice.speak("panggilan Untuk, Nomor Antrian, " + "{{page.no_antrianp}}" +
+            ", atas nama {{ name.nama_p}}, menuju, poli umum",
+            "Indonesian Female", {
+              rate: 1,
+              pitch: 1,
+              volume: 1
+            });
+        } else if ('{{page.id_poli}}' === "2") {
+          responsiveVoice.speak("panggilan Untuk, Nomor Antrian, " + "{{page.no_antrianp}}" +
+          ", atas nama {{ name.nama_p}}, menuju, Poli, gigi ",
+            "Indonesian Female", {
+              rate: 1,
+              pitch: 1,
+              volume: 1,
+              isHidden: true
+            });
+        } else if ('{{page.id_poli}}' === "3") {
+          responsiveVoice.speak("panggilan Untuk, Nomor Antrian, " + "{{page.no_antrianp}}" +
+          ", atas nama {{ name.nama_p}}, menuju, Poli, Spesialis ",
+            "Indonesian Female", {
+              rate: 1,
+              pitch: 1,
+              volume: 1,
+              isHidden: true
+            });
+        } else if ('{{page.id_poli}}' === "4") {
+          responsiveVoice.speak("panggilan Untuk, Nomor Antrian, " + "{{page.no_antrianp}}" +
+          ", atas nama {{ name.nama_p}}, menuju, Poli, kesehatan ibu & anak ",
+            "Indonesian Female", {
+              rate: 1,
+              pitch: 1,
+              volume: 1,
+              isHidden: true
+            });
+        } 
+
+      }, durasi_bell)
+    })
+  })
+</script>
+{% endfor %}
+{% endblock %}

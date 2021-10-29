@@ -1,0 +1,51 @@
+{% extends "layouts/base.html" %}
+
+{% set filename = 'edit-poli' %}
+
+{% block title %} edit Poli {% endblock %}
+
+{% block stylesfirst %}
+{% endblock %}
+
+{% block styles %} {% endblock %}
+
+{% block title_page %} <i class="bi bi plus-fill"></i>
+edit Poli{% endblock %}
+
+{% block item_page %} edit-poli {% endblock %}
+
+{% block content %}
+
+<section class="section">
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <form action="{{url_for('poli.UbahPoli', slug=poliData.slug )}}" method="POST" class="form form-vertical" novalidate>
+          {{ form.csrf_token() }}
+          {{ render_field(form.kode_poli, placeholder=form.kode_poli.label.text )}}
+          {{ render_field(form.nama_poli, placeholder="Nama Poli" )}}
+          <div class="form-group row align-items-center">
+            <div class="col-lg-2 col-4 text-end">
+              
+            </div>
+            <div class="col-lg-4 col-8">
+              {{ btn_simpan(form.simpan)}}
+              {#{ btn_secondary(type="reset", value="Batal")}#}
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+{% endblock %}
+
+{% block js %}
+<script>
+  
+
+</script>
+{% endblock  %}

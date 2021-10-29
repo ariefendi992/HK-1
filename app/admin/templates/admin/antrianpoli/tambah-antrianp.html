@@ -1,0 +1,137 @@
+{% extends "layouts/base.html" %}
+
+{% set filename = 'tambah-antrian' %}
+
+{% block title %} Tambah Antrian Poli {% endblock %}
+
+{% block stylesfirst %}
+{% endblock %}
+
+{% block styles %} {% endblock %}
+
+{% block title_page %} <i class="bi bi plus-fill"></i>
+Tambah Antrian Poli{% endblock %}
+
+{% block item_page %} tambah-antrian-poli {% endblock %}
+
+{% block content %}
+
+<section class="section">
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <form action="" method="POST" class="form form-vertical" novalidate>
+          {{ form.csrf_token() }}
+          {{ render_select_field(form.id_poli, onchange="AntrianPoli(this)")}}
+          {{ render_select_field(form.nama_pasien )}}
+
+          <div class="form-group row align-items-center">
+            <div class="col-lg-2 col-4 text-end">
+              {{ form.no_antrian_poli.label(class="col-form-label")}}
+            </div>
+            <div class="col-lg-4 col-8">
+              {{ form.no_antrian_poli(class="form-control", type="text", disabled="") }}
+              {% if form.no_antrianp.errors  %}
+              {{ form.no_antrianp(class="form-control is-invalid", type="hidden") }}
+              {% for error in form.no_antrianp.errors %}
+              <div class="invalid-feedback">
+                <span>{{ error }}</span>
+              </div>
+              {% endfor %}
+              {% elif form.no_antrianp.data %}
+              {{ form.no_antrianp(class="form-control is-valid", type="hidden") }}
+              <div class="valid-feedback"></div>
+              {% else %}
+              {{ form.no_antrianp(class="form-control", type="hidden") }}
+              {% endif %}
+            </div>
+          </div>
+          <!-- <div class="form-group row align-items-center">
+            <div class="col-lg-2 col-4 text-end">
+              <label class="col-form-label" for="">Nomor Antrian</label>
+            </div>
+            <div class="col-lg-4 col-8">
+              <input type="text" class="form-control" name="antrianp" value="">
+            </div>
+          </div> -->
+
+          <div class="form-group row align-items-center">
+            <div class="col-lg-2 col-4 text-end">
+              <!-- <label for=""></label> -->
+            </div>
+            <div class="col-lg-4 col-8">
+              {{ btn_simpan(form.simpan)}}
+              {{ btn_secondary(type="reset", value="Batal")}}
+            </div>
+          </div>
+
+        </form>
+        {#}
+        {{sql1}} <br>
+        {{sql2}} <br>
+        {{sql3}} <br>
+        {{sql4}} <br>
+        {{no}}
+        <br>
+        
+        {% for tps in sql %}
+        {% if form.id_poli == 1 %}
+        {{ tps.no_antrianp}}
+        {% endif %}
+        {% endfor %}
+        {#}
+      </div>
+    </div>
+  </div>
+
+</section>
+
+{% endblock %}
+
+{% block js %}
+<script src="{{ url_for('static', filename='vendors/jquery/jquery.min.js')}}"></script>
+<script src="{{ url_for('static', filename='vendors/jquery/jquery.js')}}"></script>
+<script src="{{ url_for('static', filename='vendors/jquery/jquery.easing.min.js')}}"></script>
+
+
+<script>
+  function kodePoli(element) {
+    var kode = element.options[element.selectedIndex].text;
+    var ant = document.getElementById("no_antrianp").value;
+
+    document.getElementById("no_antrian_poli").value = kode + '-' + ant;
+  }
+</script>
+
+<script>
+  function myNewFunction(element) {
+    var text = element.options[element.selectedIndex].text;
+    document.getElementById("test").innerHTML = text;
+  }
+</script>
+
+<script>
+  function AntrianPoli(element) {
+    var id = element.options[element.selectedIndex].value;
+    var kode = element.options[element.selectedIndex].text;
+    //var ant = document.getElementById("no_antrianp").value = "{{ sql2 }}"
+    if (id == 1) {
+      //console.log("{{ sql1 }}")
+      document.getElementById("no_antrian_poli").value = kode + '-' + "{{ sql1 }}"
+      document.getElementById("no_antrianp").value = "{{ sql1 }}"
+    } else if (id == '2') {
+      document.getElementById("no_antrian_poli").value = kode + '-' + "{{ sql2 }}"
+      document.getElementById("no_antrianp").value = "{{ sql2 }}"
+    } else if (id == '3') {
+      document.getElementById("no_antrian_poli").value = kode + '-' + "{{ sql3 }}"
+      document.getElementById("no_antrianp").value = "{{ sql3 }}"
+    } else if (id == '4') {
+      document.getElementById("no_antrian_poli").value = kode + '-' + "{{ sql4 }}"
+      document.getElementById("no_antrianp").value = "{{ sql4 }}"
+    } else {
+      document.getElementById("no_antrian_poli").value = ""
+    }
+  }
+</script>
+
+{% endblock  %}

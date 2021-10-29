@@ -1,0 +1,56 @@
+{% extends "layouts/base-user.html" %}
+
+{% block title %}
+Registrasi Pasien
+{% endblock %}
+
+{% block content %}
+
+<!-- tampilkan pesan selamat datang -->
+<div class="row justify-content-center">
+  <div class="col-md-7 ">
+    <div class="alert alert-light d-flex align-items-center  mb-4 rounded-2 " role="alert">
+      <!-- <i class="bi-info-circle text-success me-3 fs-3"></i> -->
+      <div>
+        <strong>Registrasi Pasien</strong>.
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="row justify-content-center">
+  <!-- link halaman nomor antrian -->
+  <div class="col-lg-7 mb-4">
+    <div class="card border-0 shadow-sm">
+      <div class="card-body">
+        <div class="row">
+          
+          <form action="" method="POST" class="form form-vertical" novalidate>
+            {{ form.csrf_token() }}
+            {{ render_field(form.noid, placeholder=form.noid.label.text )}}
+            {{ render_field(form.nama, placeholder="Nama Lengkap" )}}
+            {{ render_radio_fields(form.jk) }}
+            {{ render_field(form.tgl_lahir, placeholder="Tgl / Bulan / Tahun" )}}
+            {{ render_field(form.alamat, placeholder=form.alamat.label.text )}}
+            {{ render_field(form.telp, placeholder=form.telp.label.text )}}
+            {{ render_field(form.username, placeholder=form.username.label.text )}}
+            {{ render_field(form.password, placeholder=form.password.label.text )}}
+            <div class="form-group row align-items-center">
+              <div class="col-lg-4 col-8 text-center mt-2">
+                {{ btn_simpan(form.simpan)}}
+                {{ btn_secondary(type="reset", value="Batal")}}
+              </div>
+            </div>
+  
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+
+
+<!-- Footer -->

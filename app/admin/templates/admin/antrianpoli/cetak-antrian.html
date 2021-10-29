@@ -1,0 +1,81 @@
+{% extends "layouts/base.html" %}
+
+{% set filename = 'cetak-antrian' %}
+
+{% block title %} cetak Antrian Poli {% endblock %}
+
+{% block stylesfirst %}
+{% endblock %}
+
+{% block styles %} {% endblock %}
+
+{% block title_page %} <i class="bi bi plus-fill"></i>
+Cetak Antrian Poli{% endblock %}
+
+{% block item_page %} cetak-antrian-poli {% endblock %}
+
+{% block content %}
+
+<section class="section">
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <form action="" method="POST" class="form form-vertical" novalidate>
+          {{ form.csrf_token() }}
+          {{ render_select_field(form.nama_pasien )}}
+          {{ render_select_field(form.id_poli, onchange="kodePoli(this)")}}
+
+          <div class="form-group row align-items-center">
+            <div class="col-lg-2 col-4 text-end">
+              {{ form.no_antrian_poli.label(class="col-form-label")}}
+            </div>
+            <div class="col-lg-4 col-8">
+              {{ form.no_antrian_poli(class="form-control", type="text", disabled="") }}
+              {{ form.no_antrian_poli2(class="form-control", type="hidden") }}
+              {{ form.no_antrianp(class="form-control", type="hidden", value=antrian) }}
+            </div>
+          </div>
+
+          <div class="form-group row align-items-center">
+            <div class="col-lg-2 col-4 text-end">
+              <!-- <label for=""></label> -->
+            </div>
+            <div class="col-lg-4 col-8">
+              {{ btn_simpan(form.cetak)}}
+
+              <a href="{{ url_for('antrianp.Cetak') }}" class="btn btn-info" >Cetak Antrian</a>
+              {{ btn_secondary(type="reset", value="Batal")}}
+            </div>
+          </div>
+
+        </form>
+
+        {{ tb_antrian}}
+      </div>
+    </div>
+  </div>
+
+</section>
+
+{% endblock %}
+
+{% block js %}
+<script src="{{ url_for('static', filename='vendors/jquery/jquery.min.js')}}"></script>
+<script src="{{ url_for('static', filename='vendors/jquery/jquery.js')}}"></script>
+<script src="{{ url_for('static', filename='vendors/jquery/jquery.easing.min.js')}}"></script>
+<script>
+  function kodePoli(element) {
+    var kode = element.options[element.selectedIndex].text;
+    var ant = document.getElementById("no_antrianp").value;
+    document.getElementById("no_antrian_poli").value = kode + ant;
+  }
+</script>
+
+<script>
+  function myNewFunction(element) {
+    var text = element.options[element.selectedIndex].text;
+    document.getElementById("test").innerHTML = text;
+  }
+</script>
+
+{% endblock  %}

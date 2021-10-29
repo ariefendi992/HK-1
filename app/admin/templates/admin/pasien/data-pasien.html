@@ -1,0 +1,113 @@
+{% extends "layouts/base.html" %}
+
+{% set filename = 'data-pasien' %}
+
+{% block title %} Lihat Data {% endblock %}
+
+{% block stylesfirst %}
+{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='vendors/simple-datatables/style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='vendors/fontawesome/all.min.css') }}">
+<style>
+  .fontawesome-icons {
+    text-align: center;
+  }
+
+  article dl {
+    background-color: rgba(0, 0, 0, .02);
+    padding: 20px;
+  }
+
+  .fontawesome-icons .the-icon svg {
+    font-size: 24px;
+  }
+</style>
+{% endblock %}
+
+{% block title_page %} Data Pasien {% endblock %}
+
+{% block item_page %} data-pasien {% endblock %}
+
+{% block content %}
+
+<section class="section">
+  <div class="card">
+    <div class="card-header">
+      <a href="{{ url_for('pasien.TambahPasien') }}" class="btn btn-primary">
+        <i class="fa fa-plus me-1"></i> Tambah data
+      </a>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="table-responsive">
+          <table class="table table-striped" id="table1">
+            <thead class="">
+              <tr>
+                <th>No.</th>
+                <th>No. Identitas</th>
+                <th>Nama</th>
+                <th>Jenis Kelamin</th>
+                <!-- <th data-type="date" data-format="DD/MM/YYYY">Tgl Lahir</th>
+                <th>Alamat</th>
+                <th>Telp</th> -->
+                <th>Aksi</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {% for page, tipe in dataPasien %}
+              <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ page.no_identitas_p }}</td>
+                <td>{{ page.nama_p }}</td>
+                <td>{{ tipe.jk }}</td>
+                {#} <td data-type="date" data-format="DD/MM/YYYY">{{ page.tgl_lahir_p }}</td>
+                <td>{{ page.alamat_p }}</td>
+                <td>{{ page.telp_p }}</td> {#}
+                <td>
+                  <a class="btn btn-outline-info" href="" data-bs-toggle="modal"
+                    data-bs-target="#detailPasien{{ page.no_identitas_p }}" data-bs-placement="top"
+                    title="Lihat Detail">
+                    <i class="fa fa-eye"></i>
+                  </a>
+                  <a href="{{ url_for('pasien.EditPasien', slug=page.slug) }}" class="btn btn-outline-warning"
+                    data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Data {{ page.nama }} !">
+                    <i class="fa fa-pencil-alt"></i>
+                  </a>
+                  <a class="btn btn-outline-danger" href="" data-bs-toggle="modal" data-bs-placement="top"
+                    title="Hapus Data {{ page.nama_p }} !" data-bs-target="#hapusModal{{page.slug}}">
+                    <i class="fa fa-trash-alt"></i>
+                  </a>
+                </td>
+              </tr>
+              {% include "modal/modal-delete-pasien.html" %}
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% for page, tipe in dataPasien %}
+        {% include "modal/detail-pasien.html" %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block js %}
+<script src="{{ url_for('static', filename='vendors/fontawesome/all.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendors/simple-datatables/simple-datatables.js') }}"></script>
+<script>
+  // Simple Datatable
+  let table1 = document.querySelector('#table1');
+  let dataTable = new simpleDatatables.DataTable(table1,{
+    
+  });
+</script>
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,303 @@
+{% extends "layouts/base.html" %} {% set filename = 'index' %} {% block title %} Dashboard {% endblock %} {% block stylesfirst %} {% endblock %} {% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='vendors/iconly/bold.css')}}">
+<link rel="stylesheet" href="{{ url_for('static', filename='vendors/chartjs/Chart.min.css') }}"> {% endblock %} 
+
+{% block title_page %}
+Halaman Utama Admin
+{% endblock %} 
+{% block item_page %} {% endblock %} {% block content %}
+<div class="page-content">
+    {#{ current_user.role.tipe_akun }#}
+    <section class="row">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body ">
+                        <div class="d-flex align-item-start">
+                            <div class="stats-icon green ">
+                                <i class="iconly-boldUser1"></i>
+                            </div>
+                            <div style="margin-left: 10px;">
+                                <h6>Poli Umum</h6>
+                                <h6>Antrian = {{ dataPoliUmum}}</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body ">
+                        <div class="d-flex align-item-start">
+                            <div class="stats-icon blue ">
+                                <i class="iconly-boldUser1"></i>
+                            </div>
+                            <div style="margin-left: 10px;">
+                                <h6>Poli Gigi</h6>
+                                <h6>Antrian = {{ dataPoliGigi}}</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body ">
+                        <div class="d-flex align-item-start">
+                            <div class="stats-icon red ">
+                                <i class="iconly-boldUser1"></i>
+                            </div>
+                            <div style="margin-left: 10px;">
+                                <h6>Poli Spesialis</h6>
+                                <h6>Antrian = {{ dataPoliSpesialis}}</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body ">
+                        <div class="d-flex align-item-start">
+                            <div class="stats-icon purple ">
+                                <i class="iconly-boldUser1"></i>
+                            </div>
+                            <div style="margin-left: 10px;">
+                                <h6>Poli KIA</h6>
+                                <h6>Antrian = {{ dataPoliKia}}</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="row">
+      <div class="d-flex justify-content-start">
+        <div class="col-6 col-lg-9">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">Grafik Pengunjung</h4>
+            </div>
+            <div class="card-body">
+              <canvas id="bar"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Grafik Total Pendaftar & Pengunjung</h4>
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            <canvas id="bar"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Grafik Total Antrian Perhari</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="div">
+                            <canvas id="donat"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+    </div>
+
+
+
+
+    {% endblock %} {% block js %} {# chart JS 3.51 #}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js" integrity="sha512-Wt1bJGtlnMtGP0dqNFH1xlkLBNpEodaiQ8ZN5JLA5wpc1sUlk/O5uuOMNgvzddzkpvZ9GLyYNa8w2s7rqiTk5Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    {# data tables chart JS 2.0.0 #}
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+
+    {# JQuery 3.6.0 #}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+
+    {# variabel global chart datalabel #}
+    <script>
+        Chart.register(ChartDataLabels);
+    </script>
+
+    {# chart bar data total #}
+    <script>
+        var getDataTotal = $.parseJSON("{{ totalPoli }}")
+
+        const chartColors = {
+            //pasien: 'rgb(170, 178, 204)',
+            pasien: 'rgb(255, 194, 51)',
+            umum: 'rgb(93, 218, 180)',
+            gigi: 'rgb(87, 202, 235)',
+            spesialis: 'rgb(255, 121, 118)',
+            kia: 'rgb(150, 148, 255)',
+        };
+
+        const labels = [
+            // 'Daftar',
+            'P. Umum',
+            'P. Gigi',
+            'P. Sp',
+            'P. KIA'
+        ];
+
+
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: 'Pasien',
+                backgroundColor: [ /*chartColors.pasien, */ chartColors.umum, chartColors.gigi, chartColors.spesialis, chartColors
+                    .kia
+                ],
+                borderColor: 'rgb(224, 224, 224)',
+                // data: ["{{dataPasien}}"].concat(getDataTotal),
+                data: getDataTotal,
+                borderWidth: 2,
+                barThickness : 70
+            }],
+        };
+
+        const config = {
+            type: 'bar',
+            data: data,
+            options: {
+                maintainAspectRatio: false,
+                aspectRatio: 1,
+                responsive: true,
+                barRoundness: 1,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid : {
+                            lineWidth: 2,
+                            tickWidth: 1
+                        }
+                    },
+                    x : {
+                        beginAtZero: true,
+                        grid: {
+                            lineWidth: 1
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'Total Data'
+                    },
+                    datalabels: {
+                        anchor: "end",
+                        align: 'start',
+                        borderColor: 'white',
+                        borderWidth: 3,
+                        offset: -10,
+                        backgroundColor: [ /*chartColors.pasien, */ chartColors.umum, chartColors.gigi, chartColors.spesialis, chartColors
+                            .kia
+                        ],
+                        borderRadius: 25,
+                        color: 'black',
+                        font: {
+                            weight: 'bold',
+                            size: 20
+
+                        }
+                    }
+                }
+            }
+        };
+
+
+        var ctxBar = document.getElementById("bar").getContext('2d')
+        var myChart = new Chart(ctxBar, config)
+    </script>
+    <!-- batas chart js bar -->
+
+    {# chart type doughnut harian #}
+    <script>
+        const getDataHarian = $.parseJSON("{{ totalHarian }}")
+            //alert(getDataHarian)
+
+        const chartColors2 = {
+            umum: 'rgb(93, 218, 180)',
+            gigi: 'rgb(87, 202, 235)',
+            spesialis: 'rgb(255, 121, 118)',
+            kia: 'rgb(150, 148, 255)',
+        };
+
+        const labels2 = [
+            'P. Umum',
+            'P. Gigi',
+            'P. Spesialis',
+            'P. KIA'
+        ];
+
+        const data2 = {
+            labels: labels2,
+            datasets: [{
+                label: 'My First Dataset',
+                backgroundColor: [chartColors2.umum, chartColors2.gigi, chartColors2.spesialis, chartColors2
+                    .kia
+                ],
+                data: getDataHarian,
+                hoverOffset: 4
+            }]
+        };
+
+        const config2 = {
+            type: 'doughnut',
+            data: data2,
+            options: {
+                aspectRatio: 1,
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    },
+                    datalabels: {
+                        anchor: "end",
+                        align: 'start',
+                        backgroundColor: [chartColors2.umum, chartColors2.gigi, chartColors2.spesialis, chartColors2
+                            .kia
+                        ],
+                        borderRadius: 25,
+                        borderWidth: 2,
+                        offset: -10,
+                        borderColor: 'white',
+                        color: 'black',
+                        font: {
+                            weight: 'bold',
+                            size: 20
+                        }
+                    }
+                }
+            }
+        };
+
+
+        var ctxDoughnut = document.getElementById('donat').getContext('2d')
+        var myChartx = new Chart(ctxDoughnut, config2);
+    </script>
+
+    {% endblock %}

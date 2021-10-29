@@ -1,0 +1,8 @@
+{% macro btn_simpan(primary) %}
+{{ primary(class="btn btn-primary me-1 mb-1", **kwargs)|safe }}
+{% endmacro  %}
+
+{% macro btn_secondary(name="", type="", value="") %}
+<input class="btn btn-secondary me-1 mb-1" name="{{ name }}" type="{{ type }}" value="{{ value }}">
+{% endmacro  %}
+

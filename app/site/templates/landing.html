@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/logo/logoHK.png') }}" type="image/x-icon">
+
+  <title>HK Medical Center</title>
+
+  <style>
+    body {
+      font-family: 'Nunito Sans', sans-serif;
+    }
+    #navbar {
+      background-color: #3a246e;
+      padding: 10px;
+    }
+
+    .navbar-brand {
+      font-size: 24px;
+      /* font-family: nunito; */
+      color: white;
+      font-weight: 500;
+    }
+
+    .navbar-brand:hover {
+      color:white
+    }
+
+    .nav-link {
+      font-size: 18px;
+      font-weight: 500;
+      color: white;
+    }
+
+    .nav-link:hover {
+      color: rgb(221, 216, 216)
+    }
+
+    .nav-link:focus {
+      color: rgb(221, 216, 216)
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg shadow-sm fixed-top" id="navbar">
+    <div class="container">
+      <a class="navbar-brand" href="#">HK Medical Center</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Beranda</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Profil</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Galeri</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Kontak</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="p-5 mb-10 bg-info rounded-3">
+      <div class="container py-5">
+        <h1 class="display-5 fw-bold">Custom jumbotron</h1>
+        <p class="col-md-8 fs-4">Using a series of utilities, you can create this jumbotron, just like the one in
+          previous versions of Bootstrap. Check out the examples below for how you can remix and restyle it to your
+          liking.</p>
+        <button class="btn btn-primary btn-lg" type="button">Example button</button>
+      </div>
+    </div>
+  </main>
+
+
+  <!-- Optional JavaScript; choose one of the two! -->
+
+  <!-- Option 1: Bootstrap Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous">
+  </script>
+
+  <!-- Option 2: Separate Popper and Bootstrap JS -->
+  <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-W8fXfP3gkOKtndU4JGtKDvXbO53Wy8SZCQHczT5FMiiqmQfUpWbYdTil/SxwZgAN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js" integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous"></script>
+    -->
+
+  <script>
+    var scrollSpy = new bootstrap.ScrollSpy(document.body, {
+      target: '#navbar-example'
+    })
+  </script>
+</body>
+
+</html>

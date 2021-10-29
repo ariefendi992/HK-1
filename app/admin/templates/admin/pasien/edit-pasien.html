@@ -1,0 +1,57 @@
+{% extends "layouts/base.html" %}
+
+{% set filename = 'edit-pasien' %}
+
+{% block title %} Edit Data Pasien {% endblock %}
+
+{% block stylesfirst %}
+{% endblock %}
+
+{% block styles %} {% endblock %}
+
+{% block title_page %} <i class="bi bi-person-plus-fill"></i>
+Tambah Pasien{% endblock %}
+
+{% block item_page %} edit-data-pasien {% endblock %}
+
+{% block content %}
+
+<section class="section">
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <form action="" method="POST" class="form form-vertical" novalidate>
+          {{ form.csrf_token() }}
+          {{ render_field(form.no_identitas_p, placeholder=form.no_identitas_p.label.text )}}
+          {{ render_field(form.nama_p, placeholder="Nama Lengkap" )}}
+          {{ render_radio_fields(form.id_jk_p) }}
+          {{ render_field(form.tgl_lahir_p, placeholder="Tgl / Bulan / Tahun" )}}
+          {{ render_field(form.alamat_p, placeholder=form.alamat_p.label.text )}}
+          {{ render_field(form.telp_p, placeholder=form.telp_p.label.text )}}
+          {{ render_field(form.username, placeholder=form.username.label.text )}}
+          {{ render_field(form.password, placeholder=form.password.label.text )}}
+          <div class="form-group row align-items-center">
+            <div class="col-lg-2 col-4">
+              <!-- <label></label> -->
+            </div>
+            <div class="col-lg-4 col-8 text-start">
+              {{ btn_simpan(form.simpan)}}
+            </div>
+          </div>
+      </div>
+
+      </form>
+    </div>
+  </div>
+  </div>
+
+</section>
+
+{% endblock %}
+
+{% block js %}
+<script>
+
+
+</script>
+{% endblock  %}

@@ -1,0 +1,48 @@
+<div class="modal fade text-left" id="detailPasien{{ page.no_identitas_p }}" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel17" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel17">..::Detail Data Pasien ::..</h4>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <i data-feather="x"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="table-responsive">
+          <table class="table table-bordered border-secondary" id="table1">
+            <thead class="table-active">
+              <tr>
+                <th>No. Identitas</th>
+                <th>Nama</th>
+                <th>Jenis Kelamin</th>
+                <th>Tgl Lahir</th>
+                <th>Alamat</th>
+                <th>Telp</th>
+                <th>Tgl Daftar</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              
+              <tr>
+                <td>{{ page.no_identitas_p }}</td>
+                <td>{{ page.nama_p }}</td>
+                <td>{{ page.gender.jk }}</td>
+                <td>{{ page.tgl_lahir_p|dateformat('%d-%B-%Y') }}</td>
+                <td>{{ page.alamat_p }}</td>
+                <td>{{ page.telp_p }}</td>
+                <td>{{ page.created_at|dateformat('%d-%B-%Y') }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
