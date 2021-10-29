@@ -23,6 +23,10 @@
   .fontawesome-icons .the-icon svg {
     font-size: 24px;
   }
+
+  #btn-modal {
+    padding: 2px 8px;
+  }
 </style>
 {% endblock %}
 
@@ -34,6 +38,7 @@
 
 <section class="section">
   <div class="card">
+    {# {{ dataPasien}} #}
     <div class="card-header">
       <a href="{{ url_for('pasien.TambahPasien') }}" class="btn btn-primary">
         <i class="fa fa-plus me-1"></i> Tambah data
@@ -66,18 +71,18 @@
                 {#} <td data-type="date" data-format="DD/MM/YYYY">{{ page.tgl_lahir_p }}</td>
                 <td>{{ page.alamat_p }}</td>
                 <td>{{ page.telp_p }}</td> {#}
-                <td>
-                  <a class="btn btn-outline-info" href="" data-bs-toggle="modal"
-                    data-bs-target="#detailPasien{{ page.no_identitas_p }}" data-bs-placement="top"
-                    title="Lihat Detail">
+                <td style="text-align: center;">
+                  <a id="btn-modal" class="btn btn-outline-info" href="" data-bs-toggle="modal"
+                  data-bs-target="#detailPasien{{ page.no_identitas_p }}" data-bs-placement="top"
+                  title="Lihat Detail">
                     <i class="fa fa-eye"></i>
                   </a>
-                  <a href="{{ url_for('pasien.EditPasien', slug=page.slug) }}" class="btn btn-outline-warning"
-                    data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Data {{ page.nama }} !">
+                  <a id="btn-modal" href="{{ url_for('pasien.EditPasien', slug=page.slug) }}" class="btn btn-outline-warning"
+                  data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Data {{ page.nama }} !">
                     <i class="fa fa-pencil-alt"></i>
                   </a>
-                  <a class="btn btn-outline-danger" href="" data-bs-toggle="modal" data-bs-placement="top"
-                    title="Hapus Data {{ page.nama_p }} !" data-bs-target="#hapusModal{{page.slug}}">
+                  <a id="btn-modal" class="btn btn-outline-danger" href="" data-bs-toggle="modal" data-bs-placement="top"
+                  title="Hapus Data {{ page.nama_p }} !" data-bs-target="#hapusModal{{page.slug}}">
                     <i class="fa fa-trash-alt"></i>
                   </a>
                 </td>

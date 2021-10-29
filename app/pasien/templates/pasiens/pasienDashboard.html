@@ -1,0 +1,94 @@
+{% extends 'layouts/master.html' %} {% set filename = 'dashboard-user' %} {% block title %} Pasien{% endblock %} {% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='vendors/iconly/bold.css')}}" />
+<link rel="stylesheet" href="{{ url_for('static', filename='vendors/chartjs/Chart.min.css') }}" />
+{% endblock %} {% block title_page %} Halaman Utama User {% endblock %}
+{% block content %}
+<div class="page-content">
+  {#{ current_user.role.tipe_akun }#}
+  <section class="row">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex align-item-start">
+              <div style="margin-left: 10px">
+                <h6>Poli Umum</h6>
+                <p class="mb-0">Jumlah Antrian</p>
+                <p id="umum-total" class="fs-3 text-warning mb-1"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex align-item-start">
+              <div class="stats-icon blue">
+                <i class="iconly-boldUser1"></i>
+              </div>
+              <div style="margin-left: 10px">
+                <h6>Poli Gigi</h6>
+                <h6>Antrian = {{ dataPoliGigi}}</h6>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex align-item-start">
+              <div class="stats-icon red">
+                <i class="iconly-boldUser1"></i>
+              </div>
+              <div style="margin-left: 10px">
+                <h6>Poli Spesialis</h6>
+                <h6>Antrian = {{ dataPoliSpesialis}}</h6>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex align-item-start">
+              <div class="stats-icon purple">
+                <i class="iconly-boldUser1"></i>
+              </div>
+              <div style="margin-left: 10px">
+                <h6>Poli KIA</h6>
+                <h6>Antrian = {{ dataPoliKia}}</h6>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+{% endblock %}
+
+{% block js %}
+  
+<!-- jQuery Core -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!-- Get API Key -> https://responsivevoice.org/ -->
+<script src="https://code.responsivevoice.org/responsivevoice.js?key=jQZ2zcdq"></script>
+
+<script src="{{ url_for('static', filename='vendors/fontawesome/all.min.js') }}"></script>
+
+<script>
+  $(document).ready(function () {
+    $("#umum-total").load("{{url_for('antrianp.jsonUmumTotal')}}")
+  })
+</script>
+
+{% endblock  %}

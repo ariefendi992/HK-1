@@ -18,3 +18,6 @@ def dataPasien():
         query = Pasien.query.join(Gender).filter(Pasien.id_user == current_user.id).order_by(desc(Pasien.id)).all()
         return render_template('pasiens.html', query=query)
     
+@ps.get('/dashboard')
+def pasienDashboard():
+    return render_template('pasienDashboard.html')

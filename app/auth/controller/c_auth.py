@@ -29,7 +29,7 @@ def Register():
         role_id = form.role.data
         flash('Akun berhasil dibuat. Silahkan Login.', 'info')
         query = User(nama=nama, username=username, telp=telp,
-                     password=password, role_id=role_id)
+                    password=password, role_id=role_id)
         db.session.add(query)
         db.session.commit()
 
@@ -46,15 +46,15 @@ def Login():
         
         if user and user.checkPassword(form.password.data):
             login_user(user, remember=form.remember.data)
-            flash(message='Login Sukses, Selamat datang {}'.format(
-                current_user.nama), category='success')
             if 'next' in session and session['next']:
                 if is_safe_url(session['next']):
-                    return redirect(session['next'])
+                  return redirect(session['next'])
             if current_user.role_id == 1:
-                return redirect(url_for('admin.Index'))
+              flash(message='Login Sukses, Selamat datang {}'.format(current_user.nama), category='success')
+              return redirect(url_for('admin.Index'))
             elif current_user.role_id == 3:
-                return redirect(url_for('pasiens.dataPasien'))
+              flash(message='Login Sukses, Selamat datang {}'.format(current_user.nama), category='success')
+              return redirect(url_for('pasiens.pasienDashboard'))
         else:
             flash(message='Password Salah.!', category='danger')
         
@@ -85,11 +85,15 @@ def Logout():
       font-size : 16px;
       font-weight : 600;
     }}
+    #timer {{
+      border: none;
+      border-radius: 10px 0 10px 0;
+    }}
     </style>
   </head>
   <body>
   <div style="margin: 20px auto;  width: 35%;">
-      <p id="timer" style="margin: auto; width: 100%; background: darkgreen; color:white; padding: 12px; text-align: center">
+      <p id="timer" style="margin: auto; width: 100%; background: #57CAEB; color:white; padding: 12px; text-align: center">
         Logout Sukses... (3) 
       </p>
   </div>

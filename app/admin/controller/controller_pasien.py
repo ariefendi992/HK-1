@@ -1,13 +1,14 @@
-from flask_bcrypt import generate_password_hash
+from sqlalchemy.sql.elements import or_
 from app import db
 from flask import Blueprint, render_template, request, redirect, url_for, flash, abort
 from ..model.model_pasien import Gender, Pasien
 from ..model.model_antrianp import AntrianPoli
 from ..model.model_poli import Poli
 from ..form.form_pasien import FormPasien, FormEditPasien
-from flask_login import current_user, login_required, fresh_login_required
+from flask_login import current_user, login_required
 from datetime import datetime, date
-from sqlalchemy import desc, cast, Date, and_
+from sqlalchemy import or_, desc, cast, Date, DateTime
+from app.helper.decoratorAdmin import adminRequired
 
 pasien = Blueprint('pasien', __name__, template_folder="../templates/admin/pasien")
 
@@ -18,12 +19,11 @@ for g in Gender.query.all():
 
 @pasien.route('/')
 @login_required
+@adminRequired
 def DataPasien():
-	if current_user.role_id == 1:
-		dataPasien = db.session.query(Pasien, Gender).join(Gender).filter(cast(Pasien.created_at, Date)==date.today()).order_by(desc(Pasien.id)).all()
+		dataPasien = db.session.query(Pasien, Gender).join(Gender).filter((cast(Pasien.updated_at, Date)==date.today()) | (cast(Pasien.created_at, Date)==date.today())).order_by(desc(Pasien.id)).all()
+		print(dataPasien)
 		return render_template('data-pasien.html', dataPasien=dataPasien)
-	else:
-		return '<h3>Modul tidak ditemukan</h3>'
 
 @pasien.route('/riwayat')
 @login_required
@@ -68,9 +68,9 @@ def EditPasien():
 		pasienData.tgl_lahir_p = form.tgl_lahir_p.data
 		pasienData.alamat_p = form.alamat_p.data
 		pasienData.telp_p = form.telp_p.data
-		pasienData.username = form.username.data
+		# pasienData.username = form.username.data
 		# pasienData.password = form.password.data
-		pasienData.password = generate_password_hash(form.password.data)
+		# pasienData.password = generate_password_hash(form.password.data)
 		pasienData.updated_at = datetime.now()
 		flash(message=f"data { form.nama_p.data } berhasil di update.", category="warning")
 		db.session.commit()

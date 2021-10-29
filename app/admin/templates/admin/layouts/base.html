@@ -41,6 +41,15 @@ render_select_field %}
         background-color: #F4F7FC;
     }
 
+    .alert {
+      padding: 8px 8px 8px 12px;
+    }
+
+    .alert-dismissible .btn-close {
+      padding-right: 4px;
+      padding-top: 4px;
+    }
+
     table thead {
         background-color: #cfdbff;
     }
@@ -88,9 +97,7 @@ render_select_field %}
     .dataTable-table td {
       padding: 4px 8px;
     }
-    .btn {
-      padding: 2px 8px;
-    }
+
   </style>
 </head>
 
@@ -129,7 +136,7 @@ render_select_field %}
                     </li>
                   </ol>
                 </nav>
-               {% endif %}
+              {% endif %}
               </div>
             </div>
           </div>
@@ -139,13 +146,10 @@ render_select_field %}
       if messages %} {% for category, message in messages %}
       <section class="row">
         <div class="row">
-          <div class="col-md-8">
-            <div
-              class="alert alert-{{ category }} alert-dismissible fade show"
-              role="alert"
-            >
+          <div class="col-md-12">
+            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
               {{ message }}
-              <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
           </div>
         </div>

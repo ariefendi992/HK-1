@@ -24,7 +24,7 @@
 
   }
 
-  .btn {
+  #btn-modal {
     padding: 2px 6px;
   }
 
@@ -32,6 +32,7 @@
     padding: 6px 10px;
     margin: auto;
   }
+  
   
 </style>
 {% endblock %}
@@ -72,18 +73,18 @@
                 <td>{{ page.nama_p }}</td>
                 <td>{{ page.gender.jk }}</td>
                 <td style="text-align: center;">
-                  <a class="btn btn-outline-info" href="" data-bs-toggle="modal"
+                  <a id="btn-modal" class="btn btn-outline-info" href="" data-bs-toggle="modal"
                   data-bs-target="#detailPasien{{ page.no_identitas_p }}" data-bs-placement="top"
                   title="Lihat Detail">
                   <i class="fa fa-eye"></i>
                   </a>
-                  <a href="{{ url_for('pasien.EditPasien', slug=page.slug) }}" class="btn btn-outline-warning"
+                  <a id="btn-modal" href="{{ url_for('pasien.EditPasien', slug=page.slug) }}" class="btn btn-outline-warning"
                   data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Data {{ page.nama }} !">
                   <i class="fa fa-pencil-alt"></i>
-                </a>
-                <a class="btn btn-outline-danger" href="" data-bs-toggle="modal" data-bs-placement="top"
-                title="Hapus Data {{ page.nama_p }} !" data-bs-target="#hapusModal{{page.slug}}">
-                    <i class="fa fa-trash-alt"></i>
+                  </a>
+                  <a id="btn-modal" class="btn btn-outline-danger" href="" data-bs-toggle="modal" data-bs-placement="top"
+                  title="Hapus Data {{ page.nama_p }} !" data-bs-target="#hapusModal{{page.slug}}">
+                  <i class="fa fa-trash-alt"></i>
                   </a>
                 </td>
               </tr>

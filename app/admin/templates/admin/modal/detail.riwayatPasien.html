@@ -1,4 +1,4 @@
-<div class="modal fade text-left" id="detailPasien{{ page.no_identitas_p }}" tabindex="-1" role="dialog"
+<div class="modal fade text-left" id="detailPasien{{ sql.no_identitas_p }}" tabindex="-1" role="dialog"
   aria-labelledby="myModalLabel17" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
     <div class="modal-content">
@@ -21,25 +21,19 @@
                 <th>Alamat</th>
                 <th>Telp</th>
                 <th>Tgl Daftar</th>
-                <th>Tgl Update</th>
               </tr>
             </thead>
 
             <tbody>
               
               <tr>
-                <td>{{ page.no_identitas_p }}</td>
-                <td>{{ page.nama_p }}</td>
-                <td>{{ tipe.jk }}</td>
-                <td>{{ page.tgl_lahir_p|dateformat('%d-%B-%Y') }}</td>
-                <td>{{ page.alamat_p }}</td>
-                <td>{{ page.telp_p }}</td>
-                <td>{{ page.created_at|dateformat('%d-%B-%Y') }}</td>
-                {% if page.updated_at: %}
-                <td>{{ page.updated_at|dateformat('%d-%B-%Y') }}</td>
-                {% else %}
-                <td style="text-align: center;">-</td>
-                {% endif %}
+                <td>{{ sql.pasien.no_identitas_p }}</td>
+                <td>{{ sql.pasien.nama_p }}</td>
+                <td>{{sql.pasien.gender.jk}}</td>
+                <td>{{ sql.pasien.tgl_lahir_p|dateformat('%d-%B-%Y') }}</td>
+                <td>{{ sql.pasien.alamat_p }}</td>
+                <td>{{ sql.pasien.telp_p }}</td>
+                <td>{{ sql.pasien.created_at|dateformat('%d-%B-%Y') }}</td>
               </tr>
             </tbody>
           </table>
