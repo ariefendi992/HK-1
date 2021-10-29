@@ -1,8 +1,7 @@
 {% extends 'layouts/master.html' %} {% set filename = 'dashboard-user' %} {% block title %} Pasien{% endblock %} {% block styles %}
 <link rel="stylesheet" href="{{ url_for('static', filename='vendors/iconly/bold.css')}}" />
 <link rel="stylesheet" href="{{ url_for('static', filename='vendors/chartjs/Chart.min.css') }}" />
-{% endblock %} {% block title_page %} Halaman Utama User {% endblock %}
-{% block content %}
+{% endblock %} {% block title_page %} Halaman Utama User {% endblock %} {% block content %}
 <div class="page-content">
   {#{ current_user.role.tipe_akun }#}
   <section>
@@ -13,8 +12,8 @@
             <div>
               <span class="col-md-4">Filter By : </span>
               <fieldset class="col-md-4 mt-2">
-                <select name="filter" id="filter-poli" class="form-select">
-                  <option value="">Pilih</option>
+                <select name="filter" id="filter-poli" class="form-select" onchange="choicePoli(this)">
+                  <option value="">...:: Pilih ::...</option>
                   <option value="umum">Poli Umum</option>
                   <option value="gigi">Poli Gigi</option>
                   <option value="spesialis">Poli Spesialis</option>
@@ -23,13 +22,20 @@
               </fieldset>
             </div>
           </div>
-          {# <div class="card-body">
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eius sit repellat totam doloribus adipisci deserunt cum voluptatum fugit exercitationem. Odio dolorum architecto neque beatae, debitis iste quae labore tenetur animi.</p>
-          </div> #}
+          {#
+          <div class="card-body">
+            <p>
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eius sit repellat totam doloribus adipisci deserunt cum voluptatum fugit exercitationem. Odio dolorum architecto neque beatae,
+              debitis iste quae labore tenetur animi.
+            </p>
+          </div>
+          #}
         </div>
       </div>
     </div>
   </section>
+
+  {# section poli umum #}
   <section id="poli-umum">
     <div class="row">
       <div class="col-md-3">
@@ -40,7 +46,7 @@
                 <div class="feature-icon-3 me-4">
                   <h6>Poli Umum</h6>
                   <i class="fas fa-users fa-3x text-success"></i>
-                  <span id="umum-total" class="fs-1 text-success mb-1" style="margin-left: 30px;"></span>
+                  <span id="umum-total" class="fs-1 text-success mb-1" style="margin-left: 30px"></span>
                 </div>
                 <div>
                   <p class="mb-0">Jumlah Antrian</p>
@@ -59,7 +65,7 @@
                 <div class="feature-icon-3 me-4">
                   <h6>Poli Umum</h6>
                   <i class="fas fa-user fa-3x text-success"></i>
-                  <span id="umum-sekarang" class="fs-1 text-success mb-1" style="margin-left: 30px;"></span>
+                  <span id="umum-sekarang" class="fs-1 text-success mb-1" style="margin-left: 30px"></span>
                 </div>
                 <div>
                   <p class="mb-0">Antrian Sekarang</p>
@@ -78,7 +84,7 @@
                 <div class="feature-icon-3 me-4">
                   <h6>Poli Umum</h6>
                   <i class="fas fa-user-plus fa-3x text-success"></i>
-                  <span id="umum-selanjutnya" class="fs-1 text-success mb-1" style="margin-left: 30px;"></span>
+                  <span id="umum-selanjutnya" class="fs-1 text-success mb-1" style="margin-left: 30px"></span>
                 </div>
                 <div>
                   <p class="mb-0">Antrian Selanjutnya</p>
@@ -97,7 +103,7 @@
                 <div class="feature-icon-3 me-4">
                   <h6>Poli Umum</h6>
                   <i class="fas fa-user-minus fa-3x text-success"></i>
-                  <span id="umum-sisa" class="fs-1 text-success mb-1" style="margin-left: 30px;"></span>
+                  <span id="umum-sisa" class="fs-1 text-success mb-1" style="margin-left: 30px"></span>
                 </div>
                 <div>
                   <p class="mb-0">Sisa Antrian</p>
@@ -109,15 +115,257 @@
       </div>
     </div>
   </section>
+  {# penutup section poli umum #} {# section poli gigi #}
+  <section id="poli-gigi">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex align-item-start">
+              <div style="margin-left: 10px">
+                <div class="feature-icon-3 me-4">
+                  <h6>Poli Gigi</h6>
+                  <i class="fas fa-users fa-3x text-info"></i>
+                  <span id="gigi-total" class="fs-1 text-info mb-1" style="margin-left: 30px"></span>
+                </div>
+                <div>
+                  <p class="mb-0">Jumlah Antrian</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex align-item-start">
+              <div style="margin-left: 10px">
+                <div class="feature-icon-3 me-4">
+                  <h6>Poli Gigi</h6>
+                  <i class="fas fa-user fa-3x text-info"></i>
+                  <span id="gigi-sekarang" class="fs-1 text-info mb-1" style="margin-left: 30px"></span>
+                </div>
+                <div>
+                  <p class="mb-0">Antrian Sekarang</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex align-item-start">
+              <div style="margin-left: 10px">
+                <div class="feature-icon-3 me-4">
+                  <h6>Poli Gigi</h6>
+                  <i class="fas fa-user-plus fa-3x text-info"></i>
+                  <span id="gigi-selanjutnya" class="fs-1 text-info mb-1" style="margin-left: 30px"></span>
+                </div>
+                <div>
+                  <p class="mb-0">Antrian Selanjutnya</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex align-item-start">
+              <div style="margin-left: 10px">
+                <div class="feature-icon-3 me-4">
+                  <h6>Poli Gigi</h6>
+                  <i class="fas fa-user-minus fa-3x text-info"></i>
+                  <span id="gigi-sisa" class="fs-1 text-info mb-1" style="margin-left: 30px"></span>
+                </div>
+                <div>
+                  <p class="mb-0">Sisa Antrian</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  {# penutup section poli gigi #} 
+  
+  {# section poli spesialis #}
+  <section id="poli-spesialis">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex align-item-start">
+              <div style="margin-left: 10px">
+                <div class="feature-icon-3 me-4">
+                  <h6>Polis Spesialis</h6>
+                  <i class="fas fa-users fa-3x text-danger"></i>
+                  <span id="spesialis-total" class="fs-1 text-danger mb-1" style="margin-left: 30px"></span>
+                </div>
+                <div>
+                  <p class="mb-0">Jumlah Antrian</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex align-item-start">
+              <div style="margin-left: 10px">
+                <div class="feature-icon-3 me-4">
+                  <h6>Polis Spesialis</h6>
+                  <i class="fas fa-user fa-3x text-danger"></i>
+                  <span id="spesialis-sekarang" class="fs-1 text-danger mb-1" style="margin-left: 30px"></span>
+                </div>
+                <div>
+                  <p class="mb-0">Antrian Sekarang</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex align-item-start">
+              <div style="margin-left: 10px">
+                <div class="feature-icon-3 me-4">
+                  <h6>Polis Spesialis</h6>
+                  <i class="fas fa-user-plus fa-3x text-danger"></i>
+                  <span id="spesialis-selanjutnya" class="fs-1 text-danger mb-1" style="margin-left: 30px"></span>
+                </div>
+                <div>
+                  <p class="mb-0">Antrian Selanjutnya</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex align-item-start">
+              <div style="margin-left: 10px">
+                <div class="feature-icon-3 me-4">
+                  <h6>Polis Spesialis</h6>
+                  <i class="fas fa-user-minus fa-3x text-danger"></i>
+                  <span id="spesialis-sisa" class="fs-1 text-danger mb-1" style="margin-left: 30px"></span>
+                </div>
+                <div>
+                  <p class="mb-0">Sisa Antrian</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  {# penutup section poli spesialis #} 
+  
+  {# section poli kia #}
+  <section id="poli-kia">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex align-item-start">
+              <div style="margin-left: 10px">
+                <div class="feature-icon-3 me-4">
+                  <h6>Poli Kes. Ibu & Anak</h6>
+                  <i class="fas fa-users fa-3x text-primary"></i>
+                  <span id="kia-total" class="fs-1 text-primary mb-1" style="margin-left: 30px"></span>
+                </div>
+                <div>
+                  <p class="mb-0">Jumlah Antrian</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex align-item-start">
+              <div style="margin-left: 10px">
+                <div class="feature-icon-3 me-4">
+                  <h6>Poli Kes. Ibu & Anak</h6>
+                  <i class="fas fa-user fa-3x text-primary"></i>
+                  <span id="kia-sekarang" class="fs-1 text-primary mb-1" style="margin-left: 30px"></span>
+                </div>
+                <div>
+                  <p class="mb-0">Antrian Sekarang</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex align-item-start">
+              <div style="margin-left: 10px">
+                <div class="feature-icon-3 me-4">
+                  <h6>Poli Kes. Ibu & Anak</h6>
+                  <i class="fas fa-user-plus fa-3x text-primary"></i>
+                  <span id="kia-selanjutnya" class="fs-1 text-primary mb-1" style="margin-left: 30px"></span>
+                </div>
+                <div>
+                  <p class="mb-0">Antrian Selanjutnya</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex align-item-start">
+              <div style="margin-left: 10px">
+                <div class="feature-icon-3 me-4">
+                  <h6>Poli Kes. Ibu & Anak</h6>
+                  <i class="fas fa-user-minus fa-3x text-primary"></i>
+                  <span id="kia-sisa" class="fs-1 text-primary mb-1" style="margin-left: 30px"></span>
+                </div>
+                <div>
+                  <p class="mb-0">Sisa Antrian</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  {# penutup section Poli Kes. Ibu & Anak #}
 </div>
 
-{% endblock %}
+{% endblock %} {% block js %}
 
-{% block js %}
-  
 <!-- jQuery Core -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"
-integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
 <!-- Get API Key -> https://responsivevoice.org/ -->
 <script src="https://code.responsivevoice.org/responsivevoice.js?key=jQZ2zcdq"></script>
@@ -125,26 +373,55 @@ integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="ano
 <script src="{{ url_for('static', filename='vendors/fontawesome/all.min.js') }}"></script>
 
 <script>
-  let poliUmum = document.getElementById('poli-umum')
-  let choice = document.getElementById('filter-poli')
+  $(document).ready(function () {
+    document.getElementById("poli-gigi").hidden = true;
+    document.getElementById("poli-spesialis").hidden = true;
+    document.getElementById("poli-kia").hidden = true;
+  });
+</script>
 
-  if (choice === 'umum') {
-    poliUmum.disabled = true;
-  }  
+<script>
+  function choicePoli(element) {
+    let choice = element.options[element.selectedIndex].value;
+    let poliumum = document.getElementById("poli-umum");
+
+    if (choice == "umum") {
+      poliumum.hidden = false;
+      document.getElementById("poli-gigi").hidden = true;
+      document.getElementById("poli-spesialis").hidden = true;
+      document.getElementById("poli-kia").hidden = true;
+    } else if (choice == "gigi") {
+      poliumum.hidden = true;
+      document.getElementById("poli-gigi").hidden = false;
+      document.getElementById("poli-spesialis").hidden = true;
+      document.getElementById("poli-kia").hidden = true;
+    } else if (choice == "spesialis") {
+      poliumum.hidden = true;
+      document.getElementById("poli-gigi").hidden = true;
+      document.getElementById("poli-kia").hidden = true;
+      document.getElementById("poli-spesialis").hidden = false;
+    }
+    else if (choice == 'kia'){
+      poliumum.hidden = true;
+      document.getElementById("poli-gigi").hidden = true;
+      document.getElementById("poli-spesialis").hidden = true;
+      document.getElementById("poli-kia").hidden = false;
+    
+    }
+  }
 </script>
 
 <script>
   $(document).ready(function () {
-    $("#umum-total").load("{{url_for('antrianp.jsonUmumTotal')}}")
-    $('#umum-sekarang').load("{{url_for('antrianp.jsonUmumSekarang')}}")
-    $('#umum-selanjutnya').load("{{url_for('antrianp.jsonUmumSelanjutnya')}}")
-    $('#umum-sisa').load("{{url_for('antrianp.jsonUmumSisa')}}")
+    $("#umum-total").load("{{url_for('antrianp.jsonUmumTotal')}}");
+    $("#umum-sekarang").load("{{url_for('antrianp.jsonUmumSekarang')}}");
+    $("#umum-selanjutnya").load("{{url_for('antrianp.jsonUmumSelanjutnya')}}");
+    $("#umum-sisa").load("{{url_for('antrianp.jsonUmumSisa')}}");
 
     setInterval(function () {
-      $('#umum-total').load("{{url_for('antrianp.jsonUmumTotal')}}").fadeIn("slow"),
-        $('#umum-sekarang').load("{{url_for('antrianp.jsonUmumSekarang')}}").fadeIn("slow")
-    }, 1000)
-  })
+      $("#umum-total").load("{{url_for('antrianp.jsonUmumTotal')}}").fadeIn("slow"), $("#umum-sekarang").load("{{url_for('antrianp.jsonUmumSekarang')}}").fadeIn("slow");
+    }, 1000);
+  });
 </script>
 
-{% endblock  %}
+{% endblock %}
