@@ -5,16 +5,46 @@
 {% block content %}
 <div class="page-content">
   {#{ current_user.role.tipe_akun }#}
-  <section class="row">
+  <section>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card mb-2">
+          <div class="card-body pl-2 pt-2">
+            <div>
+              <span class="col-md-4">Filter By : </span>
+              <fieldset class="col-md-4 mt-2">
+                <select name="filter" id="filter-poli" class="form-select">
+                  <option value="">Pilih</option>
+                  <option value="umum">Poli Umum</option>
+                  <option value="gigi">Poli Gigi</option>
+                  <option value="spesialis">Poli Spesialis</option>
+                  <option value="kia">Poli Kesehatan Ibu & Anak</option>
+                </select>
+              </fieldset>
+            </div>
+          </div>
+          {# <div class="card-body">
+            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eius sit repellat totam doloribus adipisci deserunt cum voluptatum fugit exercitationem. Odio dolorum architecto neque beatae, debitis iste quae labore tenetur animi.</p>
+          </div> #}
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="poli-umum">
     <div class="row">
       <div class="col-md-3">
         <div class="card">
           <div class="card-body">
             <div class="d-flex align-item-start">
               <div style="margin-left: 10px">
-                <h6>Poli Umum</h6>
-                <p class="mb-0">Jumlah Antrian</p>
-                <p id="umum-total" class="fs-3 text-warning mb-1"></p>
+                <div class="feature-icon-3 me-4">
+                  <h6>Poli Umum</h6>
+                  <i class="fas fa-users fa-3x text-success"></i>
+                  <span id="umum-total" class="fs-1 text-success mb-1" style="margin-left: 30px;"></span>
+                </div>
+                <div>
+                  <p class="mb-0">Jumlah Antrian</p>
+                </div>
               </div>
             </div>
           </div>
@@ -25,12 +55,15 @@
         <div class="card">
           <div class="card-body">
             <div class="d-flex align-item-start">
-              <div class="stats-icon blue">
-                <i class="iconly-boldUser1"></i>
-              </div>
               <div style="margin-left: 10px">
-                <h6>Poli Gigi</h6>
-                <h6>Antrian = {{ dataPoliGigi}}</h6>
+                <div class="feature-icon-3 me-4">
+                  <h6>Poli Umum</h6>
+                  <i class="fas fa-user fa-3x text-success"></i>
+                  <span id="umum-sekarang" class="fs-1 text-success mb-1" style="margin-left: 30px;"></span>
+                </div>
+                <div>
+                  <p class="mb-0">Antrian Sekarang</p>
+                </div>
               </div>
             </div>
           </div>
@@ -41,12 +74,15 @@
         <div class="card">
           <div class="card-body">
             <div class="d-flex align-item-start">
-              <div class="stats-icon red">
-                <i class="iconly-boldUser1"></i>
-              </div>
               <div style="margin-left: 10px">
-                <h6>Poli Spesialis</h6>
-                <h6>Antrian = {{ dataPoliSpesialis}}</h6>
+                <div class="feature-icon-3 me-4">
+                  <h6>Poli Umum</h6>
+                  <i class="fas fa-user-plus fa-3x text-success"></i>
+                  <span id="umum-selanjutnya" class="fs-1 text-success mb-1" style="margin-left: 30px;"></span>
+                </div>
+                <div>
+                  <p class="mb-0">Antrian Selanjutnya</p>
+                </div>
               </div>
             </div>
           </div>
@@ -57,12 +93,15 @@
         <div class="card">
           <div class="card-body">
             <div class="d-flex align-item-start">
-              <div class="stats-icon purple">
-                <i class="iconly-boldUser1"></i>
-              </div>
               <div style="margin-left: 10px">
-                <h6>Poli KIA</h6>
-                <h6>Antrian = {{ dataPoliKia}}</h6>
+                <div class="feature-icon-3 me-4">
+                  <h6>Poli Umum</h6>
+                  <i class="fas fa-user-minus fa-3x text-success"></i>
+                  <span id="umum-sisa" class="fs-1 text-success mb-1" style="margin-left: 30px;"></span>
+                </div>
+                <div>
+                  <p class="mb-0">Sisa Antrian</p>
+                </div>
               </div>
             </div>
           </div>
@@ -86,8 +125,25 @@ integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="ano
 <script src="{{ url_for('static', filename='vendors/fontawesome/all.min.js') }}"></script>
 
 <script>
+  let poliUmum = document.getElementById('poli-umum')
+  let choice = document.getElementById('filter-poli')
+
+  if (choice === 'umum') {
+    poliUmum.disabled = true;
+  }  
+</script>
+
+<script>
   $(document).ready(function () {
     $("#umum-total").load("{{url_for('antrianp.jsonUmumTotal')}}")
+    $('#umum-sekarang').load("{{url_for('antrianp.jsonUmumSekarang')}}")
+    $('#umum-selanjutnya').load("{{url_for('antrianp.jsonUmumSelanjutnya')}}")
+    $('#umum-sisa').load("{{url_for('antrianp.jsonUmumSisa')}}")
+
+    setInterval(function () {
+      $('#umum-total').load("{{url_for('antrianp.jsonUmumTotal')}}").fadeIn("slow"),
+        $('#umum-sekarang').load("{{url_for('antrianp.jsonUmumSekarang')}}").fadeIn("slow")
+    }, 1000)
   })
 </script>
 
