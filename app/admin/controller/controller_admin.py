@@ -10,10 +10,11 @@ from datetime import date
 import json
 admin = Blueprint('admin', __name__, template_folder='../templates/admin')
 
+
 choice_role = [("", "..:: Pilih ::..")]
 for s in Role.query.all():
-    choice_role.append((str(s.id), s.tipe_akun))
-    # choice_role.append((s.id ,s.tipe_akun))
+	choice_role.append((str(s.id), s.tipe_akun))
+	# choice_role.append((s.id ,s.tipe_akun))
 
 @admin.route('/')
 @login_required
@@ -74,7 +75,8 @@ def jsonChart():
 @admin.route('/data-tabel-pengguna')
 @login_required
 def DataPengguna():
-    listData = db.session.query(User, Role).join(Role).all()
+    # listData = db.session.query(User, Role).join(Role).all()
+    listData = User.query.join(Role).all()
     return render_template('user/data-pengguna.html', listData=listData)
 
 

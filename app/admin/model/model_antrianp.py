@@ -13,16 +13,3 @@ class AntrianPoli(db.Model):
 
   def __repr__(self):
     return '( id pasien {}, id Poli {}, noantrian {} )'.format(self.id_pasien, self.id_poli, self.no_antrianp)
-
-class TAntrian(db.Model):
-  __tablename__ = 'tbl_antrian'
-  id = db.Column(db.Integer(), primary_key=True)
-  tanggal = db.Column(db.Date(), default=date.today())
-  no_antrian = db.Column(db.Integer())
-  status = db.Column(db.Enum('1','0'))
-  updated_date = db.Column(db.DateTime(), default=datetime.now())
-
-  def __repr__(self):
-    return '( id : {}, tanggal : {}, nomor antrian : {}, status : {}, update {} )'.format(self.id, self.tanggal, self.no_antrian, self.status, self.updated_date)
-
-

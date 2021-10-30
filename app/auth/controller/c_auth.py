@@ -45,16 +45,16 @@ def Login():
             flash(message='Username Salah.!', category='danger')
         
         if user and user.checkPassword(form.password.data):
-            login_user(user, remember=form.remember.data)
-            if 'next' in session and session['next']:
-                if is_safe_url(session['next']):
-                  return redirect(session['next'])
-            if current_user.role_id == 1:
-              flash(message='Login Sukses, Selamat datang {}'.format(current_user.nama), category='success')
-              return redirect(url_for('admin.Index'))
-            elif current_user.role_id == 3:
-              flash(message='Login Sukses, Selamat datang {}'.format(current_user.nama), category='success')
-              return redirect(url_for('pasiens.pasienDashboard'))
+          login_user(user, remember=form.remember.data)
+          if 'next' in session and session['next']:
+            if is_safe_url(session['next']):
+              return redirect(session['next'])
+          if current_user.role_id == 1:
+            flash(message='Login Sukses, Selamat datang {}'.format(current_user.nama), category='success')
+            return redirect(url_for('admin.Index')
+          elif current_user.role_id == 3:
+            flash(message='Login Sukses, Selamat datang {}'.format(current_user.nama), category='success')
+            return redirect(url_for('pasiens.pasienDashboard'))
         else:
             flash(message='Password Salah.!', category='danger')
         

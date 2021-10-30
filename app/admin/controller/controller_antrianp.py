@@ -3,7 +3,7 @@ from flask import Blueprint, request, render_template, redirect, url_for, flash,
 from sqlalchemy.sql.elements import AnnotatedColumnElement
 from sqlalchemy.sql.sqltypes import ARRAY
 from app import db
-from ..model.model_antrianp import AntrianPoli, TAntrian
+from ..model.model_antrianp import AntrianPoli
 from ..model.model_pasien import Pasien
 from ..model.model_poli import Poli
 from ..form.form_antrianp import FormAntrianPoli, FormCetakAntrian

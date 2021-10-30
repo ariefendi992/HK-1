@@ -1,173 +1,194 @@
-<!DOCTYPE html>
-<html lang="en">
+{% from "helper/_utils.html" import btn_simpan, btn_secondary %} {% from
+  "helper/_pasien.html" import render_field, render_radio_fields,
+  render_select_field %}
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Halaman | Login {% block title %} {% endblock %}</title>
+    {% block stylesfirst %}{% endblock %}
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/bootstrap.css') }}"
+    />
+    {% block styles %}{% endblock %}
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='vendors/perfect-scrollbar/perfect-scrollbar.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='vendors/bootstrap-icons/bootstrap-icons.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/app.css') }}"
+    />
+    <link
+      rel="shortcut icon"
+      href="{{ url_for('static', filename='images/logo/logoHK.png') }}"
+      type="image/x-icon"
+    />
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login - HK Medical Center</title>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='vendors/bootstrap-icons/bootstrap-icons.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/auth.css') }}">
-  <link rel="shortcut icon" href="{{ url_for('static', filename='images/logo/logoHK.png') }}" type="image/x-icon">
-</head>
+  <style>
+    html,
+    body {
+      height: 100%;
+    }
 
-<style>
-  html,
-  body {
-    height: 100%;
-  }
+    body.my-login-page {
+      background-color: #f1f1f1;
+      font-size: 14px;
+    }
 
-  body.my-login-page {
-    background-color: #f1f1f1;
-    font-size: 14px;
-  }
+    .my-login-page .brand {
+      width: 100%;
+      /* height: 100%; */
+      text-align: center;
+      overflow: hidden;
+      border-radius: 0%;
+      margin: 48px auto 0px;
+      position: relative;
+      z-index: 1;
+    }
 
-  .my-login-page .brand {
-    width: 100%;
-    /* height: 100%; */
-    text-align: center;
-    overflow: hidden;
-    border-radius: 0%;
-    margin: 48px auto 0px;
-    position: relative;
-    z-index: 1;
-  }
+    .my-login-page .brand img {
+      width: 100%;
+    }
 
-  .my-login-page .brand img {
-    width: 100%;
-  }
-
-  .my-login-page .card-wrapper {
-    width: 400px;
-  }
-
-  .my-login-page .card {
-    border-color: transparent;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, .05);
-  }
-
-  .my-login-page .card.fat {
-    padding: 10px;
-  }
-
-  .my-login-page .card .card-title {
-    margin-bottom: 30px;
-  }
-
-  .my-login-page .form-control {
-    border-width: 2.3px;
-  }
-
-  .my-login-page .form-group label {
-    width: 100%;
-  }
-
-  .my-login-page .btn.btn-block {
-    padding: 12px 10px;
-  }
-
-  .my-login-page .footer {
-    margin: 40px 0;
-    color: #888;
-    text-align: center;
-  }
-
-  @media screen and (max-width: 425px) {
     .my-login-page .card-wrapper {
-      width: 90%;
-      margin: 0 auto;
+      width: 400px;
     }
-  }
 
-  @media screen and (max-width: 320px) {
+    .my-login-page .card {
+      border-color: transparent;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    }
+
     .my-login-page .card.fat {
-      padding: 0;
+      padding: 10px;
     }
 
-    .my-login-page .card.fat .card-body {
-      padding: 15px;
+    .my-login-page .card .card-title {
+      margin-bottom: 30px;
     }
-  }
-</style>
 
-<body class="my-login-page">
-  <section class="h-100">
-    <div class="container h-100">
-      <div class="row justify-content-md-center">
-        <div class="card-wrapper">
-          <div class="brand">
-            <img src="{{ url_for('static', filename='images/logo/logoHK.png') }}" alt="logo"
-              style="height: 90px; width: 110px;">
-            <h3 class="auth-title">MEDICAL CENTER</h3>
-          </div>
-          <div class="card mt-2">
-            <div class="card-body">
-              {% with messages = get_flashed_messages(with_categories = true ) %}
-              {% if messages %}
-              {% for category, message in messages %}
-              <div class="row">
+    .my-login-page .form-control {
+      border-width: 2.3px;
+    }
 
-                <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
-                  {{message}}
-                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
+    .my-login-page .form-group label {
+      width: 100%;
+    }
 
-              </div>
-              {% endfor %}
-              {% endif %}
-              {% endwith %}
+    .my-login-page .btn.btn-block {
+      padding: 12px 10px;
+    }
 
-              <h4 class="auth-title mb-3">Login</h4>
-              <form action="" method="post">
-                {{ form.csrf_token }}
-                <div class="form-group position-relative has-icon-left mb-4">
-                  {{ form.username(class="form-control form-control", placeholder="Username")}}
-                  <div class="form-control-icon">
-                    <i class="bi bi-person"></i>
+    .my-login-page .footer {
+      margin: 40px 0;
+      color: #888;
+      text-align: center;
+    }
+
+    @media screen and (max-width: 425px) {
+      .my-login-page .card-wrapper {
+        width: 90%;
+        margin: 0 auto;
+      }
+    }
+
+    @media screen and (max-width: 320px) {
+      .my-login-page .card.fat {
+        padding: 0;
+      }
+
+      .my-login-page .card.fat .card-body {
+        padding: 15px;
+      }
+    }
+  </style>
+
+  <body class="my-login-page">
+    <section class="h-100">
+      <div class="container h-100">
+        <div class="row justify-content-md-center">
+          <div class="card-wrapper">
+            <div class="brand">
+              <img src="{{ url_for('static', filename='images/logo/logoHK.png') }}" alt="logo" style="height: 90px; width: 110px" />
+              <h3 class="auth-title">MEDICAL CENTER</h3>
+            </div>
+            <div class="card mt-2">
+              <div class="card-body">
+                <h4 class="auth-title mb-3">Login</h4>
+                {% with messages = get_flashed_messages(with_categories = true ) %} {% if messages %}
+                {% for category, message in messages %}
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div id="basic" class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+                      {{message}}
+                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
                   </div>
                 </div>
-                <div class="form-group position-relative has-icon-left mb-3">
-                  {{ form.password(class="form-control form-control", placeholder="Password")}}
-                  <div class="form-control-icon">
-                    <i class="bi bi-shield-lock"></i>
+                {% endfor %} {% endif %} {% endwith %}
+                <form action="" method="post">
+                  {{ form.csrf_token }}
+                  <div class="form-group position-relative has-icon-left mb-4">
+                    {{ form.username(class="form-control form-control", placeholder="Username")}}
+                    <div class="form-control-icon">
+                      <i class="bi bi-person"></i>
+                    </div>
                   </div>
-                </div>
+                  <div class="form-group position-relative has-icon-left mb-3">
+                    {{ form.password(class="form-control form-control", placeholder="Password")}}
+                    <div class="form-control-icon">
+                      <i class="bi bi-shield-lock"></i>
+                    </div>
+                  </div>
 
-                <!-- <div class="form-group position-relative has-icon-left mb-2">
+                  <!-- <div class="form-group position-relative has-icon-left mb-2">
                                   {#{ form.role(class="form-select")}#}
                                   <div class="form-control-icon">
                                       <i class="bi bi-user"></i>
                                   </div>
                               </div> -->
-                <div class="form-check d-flex align-items-end">
-                  {{ form.remember(class="form-check-input me-2",  id="flexCheckDefault")}}
-                  <label class="form-check-label text-gray-600" for="flexCheckDefault">
-                    Keep me logged in
-                  </label>
-                </div>
+                  <div class="form-check d-flex align-items-end">
+                    {{ form.remember(class="form-check-input me-2", id="flexCheckDefault")}}
+                    <label class="form-check-label text-gray-600" for="flexCheckDefault"> Keep me logged in </label>
+                  </div>
 
-                <button class="btn btn-primary btn-block btn-md btn mt-3">Log in</button>
-              </form>
-              <div class="text-center mb-0 mt-3 text-sm fs-6">
-                <p class="text-gray-600">Belum punya akun? <a href="{{ url_for('auth.Register')}}"
-                    class="font-bold">Daftar</a>.
-                </p>
-              </div>
-              <div class="text-center mt-0 text-sm fs-6">
-                <p><a class="font-bold" href="forgot-password.html">Lupa password?</a>.</p>
+                  <button class="btn btn-primary btn-block btn-md btn mt-3">Log in</button>
+                </form>
+                <div class="text-center mb-0 mt-3 text-sm fs-6">
+                  <p class="text-gray-600">Belum punya akun? <a href="{{ url_for('auth.Register')}}" class="font-bold">Daftar</a>.</p>
+                </div>
+                <div class="text-center mt-0 text-sm fs-6">
+                  <p><a class="font-bold" href="forgot-password.html">Lupa password?</a>.</p>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="footer">
-            <!-- Copyright &copy; 2017 &mdash; Your Company -->
+            <div class="footer">
+              <!-- Copyright &copy; 2017 &mdash; Your Company -->
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </body>
+  <script src="{{ url_for('static', filename='vendors/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
 
-</body>
+  <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+  {#}
+  <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+  {##} {% block js %}{% endblock %}
 
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </html>

@@ -24,6 +24,7 @@ class User(db.Model, UserMixin):
   created_at = db.Column(db.Date(), default=date.today())
   updated_at = db.Column(db.DateTime(), default=datetime.today())
   role_id = db.Column(db.BigInteger(), db.ForeignKey('role.id'))
+  status = db.Column(db.Enum('1','0'), default='1')
 
   def __init__(self, nama, username, telp, password, role_id):
     self.nama = nama

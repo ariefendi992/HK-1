@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block styles %}
-<link rel="stylesheet" href="static/vendors/simple-datatables/style.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='vendors/simple-datatables/style.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='vendors/fontawesome/all.min.css') }}">
 <style>
   .fontawesome-icons {
@@ -49,19 +49,28 @@
               <th>Nama</th>
               <th>Username</th>
               <th>Tipe Akun</th>
+              <th>Status</th>
               <!-- <th data-type="date" data-format="YYYY/MM/DD">Start Date</th> -->
-              <th>Aksi</th>
+              <th style="text-align: center;">Aksi</th>
             </tr>
           </thead>
 
           <tbody>
-            {% for page, tipe in listData %}
+            {% for page in listData %}
             <tr>
               <td>{{ loop.index }}</td>
               <td>{{ page.nama }}</td>
-              <td>{{ page.username }}</td>
-              <td>{{ tipe.tipe_akun }}</td>
-              <td>
+              <td>{{ page.pagename }}</td>
+              <td>{{ page.role.tipe_akun }}</td>
+              <td><a class="btn btn-sm btn-info" href="" data-bs-toggle="modal"
+                data-bs-target="#detailData{{ page.slug }}" data-bs-placement="top" title="Lihat Detail">
+                {% if page.status == '1' %}
+                <span>aktif</span>
+                {% else %}
+                <span>tidak aktif</span> 
+                {% endif %}
+              </a></td>
+              <td style="text-align: center;">
                 <a class="btn btn-outline-info" href="" data-bs-toggle="modal"
                   data-bs-target="#detailData{{ page.slug }}" data-bs-placement="top" title="Lihat Detail">
                   <i class="fa fa-eye"></i>
@@ -80,7 +89,7 @@
             {% endfor %}
           </tbody>
         </table>
-        {% for page, tipe in listData %}
+        {% for page in listData %}
         {% include "modal/detail-data.html" %}
         {% endfor %}
       </div>
@@ -92,11 +101,13 @@
 
 {% block js %}
 <script src="{{ url_for('static', filename='vendors/fontawesome/all.min.js') }}"></script>
-<script src="static/vendors/simple-datatables/simple-datatables.js"></script>
+<script src="{{ url_for('static', filename='vendors/simple-datatables/simple-datatables.js') }}"></script>
 <script>
-  // Simple Datatable
-  let table1 = document.querySelector('#table1');
-  let dataTable = new simpleDatatables.DataTable(table1);
+// Simple Datatable
+let table1 = document.querySelector('#table1');
+let dataTable = new simpleDatatables.DataTable(table1,{
+  
+});
 </script>
 
 {% endblock %}
