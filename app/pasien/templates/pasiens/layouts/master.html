@@ -160,7 +160,6 @@ render_select_field %}
         </page-content>
         {% with messages = get_flashed_messages(with_categories = true ) %} {%
         if messages %} {% for category, message in messages %}
-        <section class="row">
           <div class="row">
             <div class="col-md-12">
               <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
@@ -169,7 +168,6 @@ render_select_field %}
               </div>
             </div>
           </div>
-        </section>
         {% endfor %} {% endif %} {% endwith %} {% block content %} {% endblock
         %}
         <footer>

@@ -29,7 +29,7 @@ def DataPasien():
 @login_required
 def riwayatPasien():
   # query = Pasien.query.join(Gender, AntrianPoli, Poli).all()
-  query = AntrianPoli.query.join(Poli, Pasien, Gender).order_by(desc(Pasien.id)).all()
+  query = AntrianPoli.query.join(Poli, Pasien, Gender).order_by(desc(Pasien.id))
   return render_template('riwayat-pasien.html', query=query)
 
 @pasien.route('/tambah-data', methods=['GET', 'POST'])
