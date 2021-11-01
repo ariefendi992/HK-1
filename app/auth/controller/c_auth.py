@@ -51,7 +51,7 @@ def Login():
               return redirect(session['next'])
           if current_user.role_id == 1:
             flash(message='Login Sukses, Selamat datang {}'.format(current_user.nama), category='success')
-            return redirect(url_for('admin.Index')
+            return redirect(url_for('admin.Index'))
           elif current_user.role_id == 3:
             flash(message='Login Sukses, Selamat datang {}'.format(current_user.nama), category='success')
             return redirect(url_for('pasiens.pasienDashboard'))
